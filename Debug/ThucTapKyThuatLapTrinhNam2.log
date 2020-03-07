@@ -1,0 +1,6 @@
+﻿  student.cpp
+  ThucTapKyThuatLapTrinhNam2.cpp
+C:\Users\thutte\source\repos\ThucTapKyThuatLapTrinhNam2\ThucTapKyThuatLapTrinhNam2\ThucTapKyThuatLapTrinhNam2.cpp(44,17): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
+C:\Users\thutte\source\repos\ThucTapKyThuatLapTrinhNam2\ThucTapKyThuatLapTrinhNam2\ThucTapKyThuatLapTrinhNam2.cpp(44,20): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
+  Generating Code...
+  ThucTapKyThuatLapTrinhNam2.vcxproj -> C:\Users\thutte\source\repos\ThucTapKyThuatLapTrinhNam2\Debug\ThucTapKyThuatLapTrinhNam2.exe
