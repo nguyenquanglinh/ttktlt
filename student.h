@@ -1,27 +1,37 @@
 #pragma once
 #include<iostream>
+#include <windows.h>
+#include <stdio.h>
 using namespace std;
+
 class student
 {
 public:
 	student();
-	student(int id, int idClass, wstring name, wstring dateTime, float number);
+	student(wstring id, wstring idClass, wstring name, wstring dateTime, wstring number);
 	void SetIdClass(int idClass);
 	void SetId(int id);
 	void SetName(wstring name);
-	void SetNumBer(float number);
+	void SetNumBer(wstring number);
 	void SetDateTime(wstring dateTime);
-
-	int GetIdClass();
-	int GetId();
+	void InPutId();
+	void InPutIdClass();
+	void InputName();
+	void InPutDateTime();
+	void InputNumBer();
+	bool CheckKey();
+	wstring GetIdClass();
+	wstring GetId();
 	wstring GetName();
-	float GetNumBer();
+	wstring GetNumBer();
 	wstring GetDateTime();
+	wstring toString();
+	bool getconchar(KEY_EVENT_RECORD& krec);
 private:
-	int idClass;
-	int id;
+	std::wstring idClass;
+	std::wstring id;
 	std::wstring name;
 	std::wstring dateTime;
-	float number;
+	std::wstring number;
 };
 

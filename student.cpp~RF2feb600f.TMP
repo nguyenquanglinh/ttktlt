@@ -1,4 +1,4 @@
-﻿#include "student.h"
+#include "student.h"
 
 student::student()
 {
@@ -20,7 +20,7 @@ student::student(wstring id, wstring idClass, wstring name, wstring dateTime, ws
 
 void student::SetIdClass(int idClass)
 {
-
+	
 	this->idClass = idClass;
 
 }
@@ -46,90 +46,45 @@ void student::SetDateTime(wstring dateTime)
 	this->dateTime = dateTime;
 }
 
+void student::InputImpormation()
+{
+	
+}
 
 void student::InPutId()
 {
-	if (CheckKey())
-		return;
-	else
-	{
-		wcin >> this->id;
-	}
+	KEY_EVENT_RECORD key;
+	 
+ 		getconchar(key);
+		/*if (key.wVirtualKeyCode == 17)*/
+		{
+			std::wcout << "key: " << key.uChar.AsciiChar
+				<< " code:  " << key.wVirtualKeyCode << std::endl;
+		}
+		/*else {*/
+			//wcin >> this->id;
+		//}
+	
 }
 
 void student::InPutIdClass()
 {
-	if (CheckKey())
-		return;
-	else
-	{
-		wcin >> this->idClass;
-	}
+	wcin >> this->idClass;
 }
-
 
 void student::InputName()
 {
-	if (CheckKey())
-		return;
-	else
-	{
-		wcin >> this->name;
-	}
-	
+	wcin >> this->name;
 }
 
 void student::InPutDateTime()
 {
-	if (CheckKey())
-		return;
-	else
-	{
-		wcin >> this->dateTime;
-	}
-	
+	wcin >> this->dateTime;
 }
 
 void student::InputNumBer()
 {
-	if (CheckKey())
-		return;
-	else
-	{
-		wcin >> this->number;
-	}
-
-}
-
-bool student::CheckKey()
-{
-	KEY_EVENT_RECORD key;
-	getconchar(key);
-	switch (key.wVirtualKeyCode)
-	{
-	case 16:
-	{
-		std::wcout << "LƯU";
-		return true;
-	}
-	case 17:
-	{
-		std::wcout << "THOÁT";
-		return true;
-	}
-	case 18:
-	{
-		std::wcout << "NHẬP LẠI";
-		return true;
-	}
-	case 32:
-	{
-		std::wcout <<"Dấu cách";
-		return true;
-	}
-	default:
-		return false;
-	}
+	wcin >> this->number;
 }
 
 wstring student::GetIdClass()
@@ -159,15 +114,15 @@ wstring student::GetDateTime()
 
 wstring student::toString()
 {
-	return L"Thông tin sinh viên: \nid: " + this->GetId()
+	return L"Th�ng tin sinh vi�n: \nid: "+this->GetId() 
 		+
-		L"\nidClass: " + this->GetIdClass()
-		+
+		L"\nidClass: "+this->GetIdClass()
+		+ 
 		L"\nName: " + this->GetName()
 		+
 		L"\nDateTime: " + this->GetDateTime()
 		+
-		L"\nNumBer: " + number;
+		L"\nNumBer: " +number ;
 }
 
 bool student::getconchar(KEY_EVENT_RECORD& krec)
