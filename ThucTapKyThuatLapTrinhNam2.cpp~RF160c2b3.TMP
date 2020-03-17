@@ -6,12 +6,10 @@
 #include <fcntl.h>
 #include <list>
 #include <conio.h>
+#include "student.h"
+#include <vector>
 #include <wchar.h>
 #include <iterator>
-
-#include "student.h"
-#include "FileManager.h"
-
 using namespace std;
 struct oxoy
 {
@@ -37,7 +35,6 @@ void removeScrollbar();
 void InputSelect(int x);
 void HuongDanMenu_Main();
 void HuongDanMenu_AddStudent();
-bool MenuBase(wstring str);
 bool getconchar(KEY_EVENT_RECORD& krec)
 {
 	DWORD cc;
@@ -62,13 +59,51 @@ bool getconchar(KEY_EVENT_RECORD& krec)
 	}
 	return false; //future ????
 }
+bool CheckDate(wstring str) {
+	int vtDau = 0;
+	int vtriKt = 1;
+	//std::vector<int> parts;
+	int dem = 0;
+	int length = str.length();
+	if (length == 0)return false;
+	for (int i = 0; i <length ; i++) {
+		if (str[i] == '/')
+		{
+			dem++;
 
+			if (dem > 2)
+				return false;
+			else
+			{
+				if (i - vtDau > 2) {
+					if (vtriKt > 2)
+					{
+						continue;
+					}
+					else
+					{
+						return false;
+					}
+				}
+				else
+				{
+					vtDau = i+1; vtriKt++;
+				}
+			}
+		}
+	}
+	return true;
+}
 int main() {
-	SetUpUnicode();
+	/*SetUpUnicode();
 	removeScrollbar();
-	Menu_Main();
-	
-	
+	Menu_Main();*/
+	std::wstring str = L"20//9/1999", temp;
+
+	wcout << CheckDate(str);
+
+
+
 }
 
 void InList(wstring a[], int n)
@@ -194,13 +229,9 @@ void Menu_Main()
 
 void Menu_Add_New_Student()
 {
+
 	HuongDanMenu_AddStudent();
 	student st = AddStudent();
-	if (!st.CheckStudentNull()) {
-		gotoxy(ox, oy, L"Bạn có muốn lưu hay không ?", false);
-		FileManager fm;
-		fm.SaveData(st.toString());
-	}
 	//gotoxy(ox, oy, st.toString());
 }
 
@@ -351,12 +382,6 @@ void HuongDanMenu_AddStudent()
 	gotoxy(ox, oy, L"1.Lưu(SHIFT).", false);
 	gotoxy(ox, oy, L"2.Thoát-không lưu(CTRL).", false);
 	gotoxy(ox, oy, L"3.Nhập lại thông tin(ALT).", false);
-}
-
-bool MenuBase(wstring str)
-{
-
-	return false;
 }
 
 void SetRect()

@@ -20,6 +20,8 @@ public:
 	void InPutDateTime();
 	void InputNumBer();
 	bool CheckKey();
+	bool CheckDate(wstring str);
+	bool CheckStudentNull();
 	wstring GetIdClass();
 	wstring GetId();
 	wstring GetName();

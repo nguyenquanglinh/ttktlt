@@ -1,0 +1,6 @@
+Thông tin sinh viên: 
+id: 11111111
+idClass: 11111111
+Name: 21221121
+DateTime: 11/11/1111
+NumBer: 1

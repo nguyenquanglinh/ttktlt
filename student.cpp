@@ -1,4 +1,5 @@
 ﻿#include "student.h"
+#include <string>
 
 student::student()
 {
@@ -46,7 +47,6 @@ void student::SetDateTime(wstring dateTime)
 	this->dateTime = dateTime;
 }
 
-
 void student::InPutId()
 {
 	if (CheckKey())
@@ -54,6 +54,11 @@ void student::InPutId()
 	else
 	{
 		wcin >> this->id;
+		if (this->id.length() != 8)
+		{
+			this->id = L"0";
+			return;
+		}
 	}
 }
 
@@ -64,9 +69,14 @@ void student::InPutIdClass()
 	else
 	{
 		wcin >> this->idClass;
+
+		if (this->idClass.length() != 8)
+		{
+			this->idClass = L"0";
+			return;
+		}
 	}
 }
-
 
 void student::InputName()
 {
@@ -75,8 +85,14 @@ void student::InputName()
 	else
 	{
 		wcin >> this->name;
+		int x = this->name.length();
+		if (x < 8 || x>30)
+		{
+			this->name = L"0";
+			return;
+		}
 	}
-	
+
 }
 
 void student::InPutDateTime()
@@ -86,8 +102,13 @@ void student::InPutDateTime()
 	else
 	{
 		wcin >> this->dateTime;
+		if (!CheckDate(this->dateTime))
+		{
+			this->dateTime = L"0";
+			return;
+		}
 	}
-	
+
 }
 
 void student::InputNumBer()
@@ -97,6 +118,11 @@ void student::InputNumBer()
 	else
 	{
 		wcin >> this->number;
+		//std::stoi(ws);
+		int i = std::stoi(this->number);
+		if (i > 10 || i <= 0) {
+			this->number = L"0";
+		}
 	}
 
 }
@@ -104,7 +130,8 @@ void student::InputNumBer()
 bool student::CheckKey()
 {
 	KEY_EVENT_RECORD key;
-	getconchar(key);
+	if (!getconchar(key)) return false;
+
 	switch (key.wVirtualKeyCode)
 	{
 	case 16:
@@ -124,12 +151,56 @@ bool student::CheckKey()
 	}
 	case 32:
 	{
-		std::wcout <<"Dấu cách";
+		std::wcout << "Dấu cách";
+		return true;
+	}
+	case 13:
+	{
+		std::wcout << "Enter";
 		return true;
 	}
 	default:
 		return false;
 	}
+}
+
+bool student::CheckDate(wstring str)
+{
+
+	int vtDau = 0;
+	//std::vector<int> parts;
+	int dem = 0;
+	int length = str.length();
+	if (length == 0 || length < 8||length>10)return false;
+	for (int i = 0; i < length; i++) {
+		if (str[i] == '/')
+		{
+			dem++;
+
+			if (dem > 2)
+				return false;
+			else
+			{
+				if (i - vtDau > 2) {
+					return false;
+				}
+				else
+				{
+					vtDau = i + 1;
+				}
+			}
+		}
+	}
+	return true;
+
+}
+
+bool student::CheckStudentNull()
+{
+	return this->GetId() == L"0"&&
+	this->GetIdClass() == L"0"&&
+	this->GetName() == L"0";
+
 }
 
 wstring student::GetIdClass()
@@ -180,7 +251,6 @@ bool student::getconchar(KEY_EVENT_RECORD& krec)
 	{
 		return false; // console not found
 	}
-
 	for (; ; )
 	{
 		ReadConsoleInput(h, &irec, 1, &cc);
