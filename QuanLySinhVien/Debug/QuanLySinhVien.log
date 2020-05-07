@@ -1,12 +1,2 @@
-﻿  stdafx.cpp
-  Student.cpp
-c:\users\thang\source\repos\ttktlt\quanlysinhvien\student.cpp(145): warning C4566: character represented by universal-character-name '\u01AF' cannot be represented in the current code page (1252)
-c:\users\thang\source\repos\ttktlt\quanlysinhvien\student.cpp(155): warning C4566: character represented by universal-character-name '\u1EAC' cannot be represented in the current code page (1252)
-c:\users\thang\source\repos\ttktlt\quanlysinhvien\student.cpp(155): warning C4566: character represented by universal-character-name '\u1EA0' cannot be represented in the current code page (1252)
-c:\users\thang\source\repos\ttktlt\quanlysinhvien\student.cpp(160): warning C4566: character represented by universal-character-name '\u1EA5' cannot be represented in the current code page (1252)
-  QuanLySinhVien.cpp
-c:\users\thang\source\repos\ttktlt\quanlysinhvien\quanlysinhvien.cpp(89): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-  FileManage.cpp
-  Generating Code...
-  QuanLySinhVien.vcxproj -> C:\Users\thang\Source\Repos\ttktlt\QuanLySinhVien\Debug\QuanLySinhVien.exe
+﻿  QuanLySinhVien.vcxproj -> C:\Users\thang\Source\Repos\ttktlt\QuanLySinhVien\Debug\QuanLySinhVien.exe
   QuanLySinhVien.vcxproj -> C:\Users\thang\Source\Repos\ttktlt\QuanLySinhVien\Debug\QuanLySinhVien.pdb (Full PDB)
