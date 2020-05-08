@@ -20,7 +20,7 @@ public:
 	void InputName();
 	void InPutDateTime();
 	void InputNumBer();
-	bool CheckKey();
+	bool CheckKey(int x);
 	bool CheckDate(wstring str);
 	bool CheckStudentNull();
 	wstring GetIdClass();

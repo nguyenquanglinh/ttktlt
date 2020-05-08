@@ -4,11 +4,11 @@
 
 Student::Student()
 {
-	this->idClass = L"0";
-	this->id = L"0";
-	this->name = L"0";
-	this->number = L"0.0";
-	this->dateTime = L"0";
+	this->idClass = L"";
+	this->id = L"";
+	this->name = L"";
+	this->number = L"0";
+	this->dateTime = L"";
 }
 
 
@@ -55,59 +55,31 @@ void Student::SetDateTime(wstring dateTime)
 
 void Student::InPutId()
 {
-	if (CheckKey())
+	if (CheckKey(1))
 		return;
-	else
-	{
-		wcin >> this->id;
-		if (this->id.length() != 8)
-		{
-			this->id = L"0";
-			return;
-		}
-	}
+
 }
 
 void Student::InPutIdClass()
 {
-	if (CheckKey())
+	if (CheckKey(2))
 		return;
-	else
-	{
-		wcin >> this->idClass;
-
-		if (this->idClass.length() != 8)
-		{
-			this->idClass = L"0";
-			return;
-		}
-	}
 }
 
 void Student::InputName()
 {
-	if (CheckKey())
-		return;
-	else
-	{
-		wcin >> this->name;
-		int x = this->name.length();
-		if (x < 8 || x>30)
-		{
-			this->name = L"0";
-			return;
-		}
-	}
-
+	/*if (CheckKey(3))
+		return;*/
+	getline(std::wcin, this->name);
 }
 
 void Student::InPutDateTime()
 {
-	if (CheckKey())
+	if (CheckKey(4))
 		return;
 	else
 	{
-		wcin>> this->dateTime;
+		wcin >> this->dateTime;
 		if (!CheckDate(this->dateTime))
 		{
 			this->dateTime = L"0";
@@ -119,24 +91,15 @@ void Student::InPutDateTime()
 
 void Student::InputNumBer()
 {
-	if (CheckKey())
+	if (CheckKey(5))
 		return;
-	else
-	{
-		wcin >> this->number;
-		//std::stoi(ws);
-		int i = stoi(this->number);
-		if (i > 10 || i <= 0) {
-			this->number = L"0";
-		}
-	}
-
 }
 
-bool Student::CheckKey()
+bool Student::CheckKey(int x)
 {
 	KEY_EVENT_RECORD key;
-	if (!GetConChar(key)) return false;
+	if (!GetConChar(key))
+		return false;
 
 	switch (key.wVirtualKeyCode)
 	{
@@ -145,7 +108,7 @@ bool Student::CheckKey()
 		std::wcout << "LƯU";
 		return true;
 	}
-	case 17:
+	case 27:
 	{
 		std::wcout << "THOÁT";
 		return true;
@@ -155,56 +118,145 @@ bool Student::CheckKey()
 		std::wcout << "NHẬP LẠI";
 		return true;
 	}
-	case 32:
+	/*case 32:
 	{
 		std::wcout << "Dấu cách";
 		return true;
-	}
+	}*/
 	case 13:
 	{
-		std::wcout << "Enter";
+
+		if (x == 1) {
+			if (this->id.length() != 8)
+				this->id = L"";
+		}
+		else if (x == 2)
+		{
+			if (this->idClass.length() != 8)
+				this->idClass = L"";
+		}
+		else if (x == 3)
+		{
+
+		}
+		else if (x == 4)
+		{
+			if (!CheckDate(this->dateTime))
+			{
+				this->dateTime = L"";
+			}
+		}
+		else if (x == 5) {
+			try
+			{
+				int y = stoi(this->number);
+				if (10 < y || y< 1) {
+					this->number = L"0";
+				}
+				this->number = std::to_wstring(y);
+			}
+			catch (const std::exception&)
+			{
+				wcout << L"\tSai điểm [1-10]";
+			}
+			
+		}
 		return true;
 	}
 	default:
-		return false;
+
+		if (x == 1)
+		{
+			std::wcout << key.uChar.AsciiChar;
+			this->id += key.uChar.AsciiChar;
+		}
+		else if (x == 2)
+		{
+			std::wcout << key.uChar.AsciiChar;
+			this->idClass += key.uChar.AsciiChar;
+		}
+		else if (x == 3)
+		{
+			getline(std::wcin, this->name);
+
+		}
+		else if (x == 4) {
+			std::wcout << key.uChar.AsciiChar;
+			this->dateTime += key.uChar.AsciiChar;
+		}
+		else if (x == 5) {
+			std::wcout << key.uChar.AsciiChar;
+			this->number += key.uChar.AsciiChar;
+		}
+		CheckKey(x);
 	}
 }
 
 bool Student::CheckDate(wstring str)
 {
+	try
+	{
+		std::string delimiter = "/";
+		std::string s(this->dateTime.begin(), this->dateTime.end());
+		size_t pos = 0;
+		std::string token;
+		int dem = 1;
 
-	int vtDau = 0;
-	//std::vector<int> parts;
-	int dem = 0;
-	int length = str.length();
-	if (length == 0 || length < 8 || length>10)return false;
-	for (int i = 0; i < length; i++) {
-		if (str[i] == '/')
-		{
-			dem++;
-
-			if (dem > 2)
+		while ((pos = s.find(delimiter)) != std::string::npos) {
+			token = s.substr(0, pos);
+			if (token == "")
+				continue;
+			if (dem > 2) {
+				wcout << "Sai định dạng";
 				return false;
-			else
-			{
-				if (i - vtDau > 2) {
-					return false;
-				}
-				else
-				{
-					vtDau = i + 1;
-				}
 			}
+			else {
+				int x = stoi(token);
+				if (dem == 1) {
+					if (1 > x || x > 32)
+					{
+						return false;
+						wcout << L"\tNgày sai";
+					}
+				}
+				else if (dem == 2)
+				{
+					if (0 > x || x > 12)
+					{
+						wcout << L"\tTháng sai";
+						return false;
+					}
+
+				}
+				dem++;
+				s.erase(0, pos + delimiter.length());
+			}
+
 		}
+		if (dem == 2)
+		{
+			wcout << L"\tKhông thể định dạng kiểu dữ liệu";
+			return false;
+		}
+		if (1990 > stoi(s) || stoi(s) > 2020)
+		{
+			wcout << L"\tNăm sai";
+			return false;
+		}
+		return true;
 	}
-	return true;
+	catch (const std::exception&)
+	{
+		wcout << L"\tKhông thể định dạng kiểu dữ liệu";
+		return false;
+	}
 
 }
 
 bool Student::CheckStudentNull()
 {
-	return this->GetId() == L"0"&&
-		this->GetIdClass() == L"0"&&
+	return this->GetId() == L"0" &&
+		this->GetIdClass() == L"0" &&
 		this->GetName() == L"0";
 
 }

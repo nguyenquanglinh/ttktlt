@@ -72,8 +72,6 @@ int main() {
 	SetUpUnicode();
 	removeScrollbar();
 	Menu_Main();
-
-
 }
 
 void InList(wstring a[], int n)
@@ -182,13 +180,23 @@ void Menu_Main()
 		}
 		case 13: //enter lựa chọn
 		{
-
+			if (vtriHTai + 1 == 6)
+			{
+				system("CLS");
+				gotoxy(ox+20, oy / 2, L"Chương trình đã kết thúc.Hẹn gặp lại bạn :)\n\n\n\n\n\n\n\n", false);
+				return;
+			}
+			InputSelect(vtriHTai + 1);
+			break;
 		}
 		default://nhập giá trị
 		{
-			int x;
-			wcin >> x;
-			if (x == 6)return;
+			int x = (int)key.uChar.AsciiChar - 48;
+			if (x == 6) {
+				system("CLS");
+				gotoxy(ox + 20, oy / 2, L"Chương trình đã kết thúc.Hẹn gặp lại bạn :)\n\n\n\n\n\n\n\n", false);
+				return;
+			}
 			InputSelect(x);
 			break;
 		}
@@ -237,7 +245,7 @@ Student AddStudent()
 	oy -= 4;
 	ox = 20;
 	//mã sinh viên
-	while (st.GetId() == L"0")
+	while (st.GetId() == L"")
 	{
 		gotoxy(ox, oy, L"1.Mã sinh viên(gồm 8 ký tự): ", false);
 		st.InPutId();
@@ -245,7 +253,7 @@ Student AddStudent()
 	//gotoxy(ox, oy, st.GetId());
 
 	//mã lớp
-	while (st.GetIdClass() == L"0")
+	while (st.GetIdClass() == L"")
 	{
 		gotoxy(ox, oy, L"2.Mã lớp(gồm 8 ký tự): ", false);
 		st.InPutIdClass();
@@ -253,7 +261,7 @@ Student AddStudent()
 	//gotoxy(ox, oy, st.GetIdClass());
 
 	//tên 
-	while (st.GetName() == L"0")
+	while (st.GetName() == L"")
 	{
 		gotoxy(ox, oy, L"3.Tên sinh viên(tối đa 30 ký tự): ", false);
 		st.InputName();
@@ -261,7 +269,7 @@ Student AddStudent()
 	//gotoxy(ox, oy, st.GetName());
 
 	//datetime
-	while (st.GetDateTime() == L"0")
+	while (st.GetDateTime() == L"")
 	{
 		gotoxy(ox, oy, L"4.Ngày tháng năm sinh (dd/mm/yyyy): ", false);
 		st.InPutDateTime();
@@ -270,7 +278,7 @@ Student AddStudent()
 
 
 	//number
-	while (st.GetNumBer() == L"0.0")
+	while (st.GetNumBer() == L"0")
 	{
 		gotoxy(ox, oy, L"5.Điểm trung bình(nhỏ hơn 10): ", false);
 		st.InputNumBer();
@@ -353,14 +361,13 @@ void HuongDanMenu_AddStudent()
 	gotoxy(ox, oy, L"Hướng dẫn:", false);
 	ox = 90;
 	wstring b[3];
-	gotoxy(ox, oy, L"1.Lưu(SHIFT).", false);
-	gotoxy(ox, oy, L"2.Thoát-không lưu(CTRL).", false);
-	gotoxy(ox, oy, L"3.Nhập lại thông tin(ALT).", false);
+	gotoxy(ox, oy, L"1.Lưu(CTRL+s).", false);
+	gotoxy(ox, oy, L"2.Thoát-không lưu(ESC).", false);
+	gotoxy(ox, oy, L"3.Nhập lại thông tin(CTRL+z).", false);
 }
 
 bool MenuBase(wstring str)
 {
-
 	return false;
 }
 
