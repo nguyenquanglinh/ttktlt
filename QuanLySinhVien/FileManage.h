@@ -1,9 +1,11 @@
-#pragma once
+﻿#pragma once
 #include "Student.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include<string>
+#include <stdio.h>
+#include <stdlib.h>
 using namespace std;
 class FileManage
 {
@@ -12,8 +14,8 @@ public:
 	~FileManage();
 
 	vector<Student> OpenFile();
-	void SaveData(wstring data);
+	bool SaveData(wstring data);
 private:
-	string path = "C:/Users/thutte/source/repos/ThucTapKyThuatLapTrinhNam2/ThucTapKyThuatLapTrinhNam2/Data/DataStudent.txt";
+	char* path = "E:/NguyenQuangLinh/TTKTLT/QuanLySinhVien/Data/DataStudent.txt";
 };
 

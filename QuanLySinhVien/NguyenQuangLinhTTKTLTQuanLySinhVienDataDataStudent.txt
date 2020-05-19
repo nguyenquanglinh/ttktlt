@@ -1,0 +1,6 @@
+Thông tin sinh viên: 
+id: 12345678
+idClass: 12345678
+Name: nguyÅn QWUng Linh
+DateTime: 1/1/1999
+NumBer: 1

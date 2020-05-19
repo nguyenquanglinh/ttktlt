@@ -1,0 +1,96 @@
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1
+Thông tin sinh viên: 
+id: 12365478
+idClass: 12365478
+Name: 1sdfasfd
+DateTime: 1/1/1999
+NumBer: 1

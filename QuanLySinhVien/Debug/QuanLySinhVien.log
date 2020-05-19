@@ -1,10 +1,4 @@
-﻿  Student.cpp
-E:\Nguyễn Quang Linh\TTKTLT\QuanLySinhVien\Student.cpp(108,17): warning C4566: character represented by universal-character-name '\u01AF' cannot be represented in the current code page (1252)
-E:\Nguyễn Quang Linh\TTKTLT\QuanLySinhVien\Student.cpp(118,17): warning C4566: character represented by universal-character-name '\u1EAC' cannot be represented in the current code page (1252)
-E:\Nguyễn Quang Linh\TTKTLT\QuanLySinhVien\Student.cpp(118,17): warning C4566: character represented by universal-character-name '\u1EA0' cannot be represented in the current code page (1252)
-E:\Nguyễn Quang Linh\TTKTLT\QuanLySinhVien\Student.cpp(210,14): warning C4566: character represented by universal-character-name '\u0111' cannot be represented in the current code page (1252)
-E:\Nguyễn Quang Linh\TTKTLT\QuanLySinhVien\Student.cpp(210,14): warning C4566: character represented by universal-character-name '\u1ECB' cannot be represented in the current code page (1252)
-E:\Nguyễn Quang Linh\TTKTLT\QuanLySinhVien\Student.cpp(210,14): warning C4566: character represented by universal-character-name '\u1EA1' cannot be represented in the current code page (1252)
+﻿  FileManage.cpp
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.24.28314\include\xstring(2388,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
           with
           [
@@ -30,19 +24,18 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\1
           [
               _Iter=wchar_t *
           ]
-E:\Nguyễn Quang Linh\TTKTLT\QuanLySinhVien\Student.cpp(200): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,void>(_Iter,_Iter,const _Alloc &)' being compiled
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\FileManage.cpp(47): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,void>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Elem=wchar_t,
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
-E:\Nguyễn Quang Linh\TTKTLT\QuanLySinhVien\Student.cpp(200): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,void>(_Iter,_Iter,const _Alloc &)' being compiled
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\FileManage.cpp(47): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,void>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Elem=wchar_t,
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
-E:\Nguyễn Quang Linh\TTKTLT\QuanLySinhVien\Student.cpp(193): warning C4715: 'Student::CheckKey': not all control paths return a value
-  QuanLySinhVien.vcxproj -> E:\Nguyễn Quang Linh\TTKTLT\QuanLySinhVien\Debug\QuanLySinhVien.exe
+  QuanLySinhVien.vcxproj -> E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Debug\QuanLySinhVien.exe

@@ -7,7 +7,7 @@ Student::Student()
 	this->idClass = L"";
 	this->id = L"";
 	this->name = L"";
-	this->number = L"0";
+	this->number = L"";
 	this->dateTime = L"";
 }
 
@@ -150,7 +150,7 @@ bool Student::CheckKey(int x)
 			try
 			{
 				int y = stoi(this->number);
-				if (10 < y || y< 1) {
+				if (10 < y || y < 1) {
 					this->number = L"0";
 				}
 				this->number = std::to_wstring(y);
@@ -159,7 +159,7 @@ bool Student::CheckKey(int x)
 			{
 				wcout << L"\tSai điểm [1-10]";
 			}
-			
+
 		}
 		return true;
 	}
@@ -167,13 +167,17 @@ bool Student::CheckKey(int x)
 
 		if (x == 1)
 		{
-			std::wcout << key.uChar.AsciiChar;
-			this->id += key.uChar.AsciiChar;
+			if (this->id.length() < 40) {
+				std::wcout << key.uChar.AsciiChar;
+				this->id += key.uChar.AsciiChar;
+			}
 		}
 		else if (x == 2)
 		{
-			std::wcout << key.uChar.AsciiChar;
-			this->idClass += key.uChar.AsciiChar;
+			if (this->idClass.length() < 40) {
+				std::wcout << key.uChar.AsciiChar;
+				this->idClass += key.uChar.AsciiChar;
+			}
 		}
 		else if (x == 3)
 		{
@@ -181,12 +185,19 @@ bool Student::CheckKey(int x)
 
 		}
 		else if (x == 4) {
-			std::wcout << key.uChar.AsciiChar;
-			this->dateTime += key.uChar.AsciiChar;
+			if (this->dateTime.length() < 40) {
+				std::wcout << key.uChar.AsciiChar;
+				this->dateTime += key.uChar.AsciiChar;
+			}
 		}
 		else if (x == 5) {
-			std::wcout << key.uChar.AsciiChar;
-			this->number += key.uChar.AsciiChar;
+			if (this->number.length() < 40) {
+				if (Isnumber(key.uChar.AsciiChar))
+				{
+					std::wcout << key.uChar.AsciiChar;
+					this->number += key.uChar.AsciiChar;
+				}
+			}
 		}
 		CheckKey(x);
 	}
@@ -321,4 +332,18 @@ bool Student::GetConChar(KEY_EVENT_RECORD& krec)
 		}
 	}
 	return false; //future ????
+}
+
+bool Student::Isnumber(char x)
+{
+	if (x == 46)
+		return true;
+	else if (x >= 48 && x < 57)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

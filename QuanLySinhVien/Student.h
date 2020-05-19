@@ -30,6 +30,7 @@ public:
 	wstring GetDateTime();
 	wstring toString();
 	bool GetConChar(KEY_EVENT_RECORD & krec);
+	bool Isnumber(char x);
 private:
 	std::wstring idClass;
 	std::wstring id;
