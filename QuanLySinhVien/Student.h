@@ -10,8 +10,8 @@ public:
 	Student();
 	~Student();
 	Student(wstring id, wstring idClass, wstring name, wstring dateTime, wstring number);
-	void SetIdClass(int idClass);
-	void SetId(int id);
+	void SetIdClass(wstring idClass);
+	void SetId(wstring id);
 	void SetName(wstring name);
 	void SetNumBer(wstring number);
 	void SetDateTime(wstring dateTime);
@@ -23,6 +23,7 @@ public:
 	bool CheckKey(int x);
 	bool CheckDate(wstring str);
 	bool CheckStudentNull();
+	wstring Print_SV(int x);
 	wstring GetIdClass();
 	wstring GetId();
 	wstring GetName();
@@ -31,6 +32,7 @@ public:
 	wstring toString();
 	bool GetConChar(KEY_EVENT_RECORD & krec);
 	bool Isnumber(char x);
+	
 private:
 	std::wstring idClass;
 	std::wstring id;

@@ -15,7 +15,7 @@ public:
 
 	vector<Student> OpenFile();
 	bool SaveData(wstring data);
+	vector< wstring> SlitLine(string line,string charS);
 private:
 	char* path = "E:/NguyenQuangLinh/TTKTLT/QuanLySinhVien/Data/DataStudent.txt";
 };
-

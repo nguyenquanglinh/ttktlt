@@ -31,6 +31,7 @@ void SetUpUnicode();
 void Menu_Main(wstring str);
 void Menu_Add_New_Student();
 void Menu_Print_List();
+void Print_List(vector<Student>dsSV);
 void Menu_Sort();
 void Menu_Find();
 void Menu_Statistic();
@@ -72,9 +73,8 @@ bool getconchar(KEY_EVENT_RECORD& krec)
 int main() {
 	SetUpUnicode();
 	removeScrollbar();
-	/*Menu_Main(L"Chào mừng bạn đến với phần mềm quản lý sinh viên");*/
-	FileManage fm;
-	fm.OpenFile();
+	Menu_Main(L"Chào mừng bạn đến với phần mềm quản lý sinh viên");
+
 }
 
 void gotoxy(int x, int y, wstring str, bool control)
@@ -91,7 +91,7 @@ void gotoxy(int x, int y, wstring str, bool control)
 
 void SetUpUnicode() {
 	_setmode(_fileno(stdin), _O_U16TEXT);
-	//_setmode(_fileno(stdout), _O_U16TEXT);
+	_setmode(_fileno(stdout), _O_U16TEXT);
 	SetRect();
 }
 
@@ -206,7 +206,7 @@ void Menu_Add_New_Student()
 	HuongDanMenu_AddStudent();
 	Student st = AddStudent();
 	if (!st.CheckStudentNull()) {
-		if (HuongDanMenu_Luu()==0)
+		if (HuongDanMenu_Luu() == 0)
 		{
 			FileManage fn;
 			if (fn.SaveData(st.toString()))
@@ -223,7 +223,29 @@ void Menu_Add_New_Student()
 void Menu_Print_List()
 {
 	FileManage fm;
-	fm.OpenFile();
+	Print_List(fm.OpenFile());
+
+}
+
+void Print_List(vector<Student> dsSV)
+{
+	system("CLS");
+	system("color 30");
+	int cout = dsSV.size();
+	oxoy* selected = new oxoy[cout];
+	ox = 60;
+	oy = 2;
+	gotoxy(ox, oy, L"Danh sách sinh viên", false);
+	oy = 6;
+	ox = 30;
+	gotoxy(ox, oy, L"STT\t Mã sinh viên\t Mã lớp\t\t Tên sinh viên\t\t Ngày sinh\t Điểm trung bình", false);
+	for (int i = 0; i < cout; i++)
+	{
+		selected[i]. ox = ox;
+		selected[i].oy = oy;;
+		gotoxy(ox, oy, dsSV.at(i).Print_SV(i+1), false);
+	}
+
 }
 
 void Menu_Sort()
@@ -347,7 +369,7 @@ void HuongDanMenu_Main(wstring str)
 	//title ox=50,oy=2
 	ox = 40;
 	oy = 1;//L"Chào mừng bạn đến với quản lý sinh viên"
-	gotoxy(ox, oy,str , false);
+	gotoxy(ox, oy, str, false);
 	ox = 90;
 	gotoxy(ox, oy, L"Hướng dẫn:", false);
 	gotoxy(ox, oy, L"Xin mời bạn chọn(1->6)", false);

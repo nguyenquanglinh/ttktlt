@@ -1,96 +1,30 @@
 Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
+id: 12345678
+idClass: 12345678
+Name: nguyÅn quang linh
+DateTime: 1/1/1999
+NumBer: 11
+Thông tin sinh viên: 
+id: 12345678
+idClass: 12345687
+Name: nguyÅn vn a
 DateTime: 1/1/1999
 NumBer: 1
 Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
+id: 12345678
+idClass: 12345678
+Name: 12456789
+DateTime: 1/1/1999
+NumBer: 10
+Thông tin sinh viên: 
+id: 12345678
+idClass: 12345678
+Name: nguyÅn vc a
 DateTime: 1/1/1999
 NumBer: 1
 Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
-DateTime: 1/1/1999
-NumBer: 1
-Thông tin sinh viên: 
-id: 12365478
-idClass: 12365478
-Name: 1sdfasfd
+id: 12345678
+idClass: 12234567
+Name: nguyên vn quang
 DateTime: 1/1/1999
 NumBer: 1

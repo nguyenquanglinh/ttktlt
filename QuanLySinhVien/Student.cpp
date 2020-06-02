@@ -25,14 +25,14 @@ Student::Student(wstring id, wstring idClass, wstring name, wstring dateTime, ws
 	this->dateTime = dateTime;
 }
 
-void Student::SetIdClass(int idClass)
+void Student::SetIdClass(wstring idClass)
 {
 
 	this->idClass = idClass;
 
 }
 
-void Student::SetId(int id)
+void Student::SetId(wstring id)
 {
 	this->id = id;
 
@@ -151,9 +151,9 @@ bool Student::CheckKey(int x)
 			{
 				int y = stoi(this->number);
 				if (10 < y || y < 1) {
-					this->number = L"0";
+					this->number = L"";
 				}
-				this->number = std::to_wstring(y);
+				else this->number = std::to_wstring(y);
 			}
 			catch (const std::exception&)
 			{
@@ -266,10 +266,27 @@ bool Student::CheckDate(wstring str)
 
 bool Student::CheckStudentNull()
 {
-	return this->GetId() == L"0" &&
-		this->GetIdClass() == L"0" &&
-		this->GetName() == L"0";
+	return this->GetId() == L"" &&
+		this->GetIdClass() == L"" &&
+		this->GetName() == L"";
 
+}
+
+wstring Student::Print_SV(int x)
+{
+	wstring s = to_wstring(x);
+	if (s.length() < 2)
+		s = L"0" + s;
+	return s +
+		L"\t " + this->GetId()
+		+
+		L"\t " + this->GetIdClass()
+		+
+		L"\t " + this->GetName()
+		+
+		L"\t\t " + this->GetDateTime()
+		+
+		L"\t " + this->GetNumBer();;
 }
 
 wstring Student::GetIdClass()
