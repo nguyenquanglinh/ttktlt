@@ -1,41 +1,13 @@
-﻿  FileManage.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.24.28314\include\xstring(2388,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.24.28314\include\xstring(2399): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.24.28314\include\xstring(2399): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.24.28314\include\xstring(2379): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.24.28314\include\xstring(2379): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\FileManage.cpp(47): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,void>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ]
-E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\FileManage.cpp(47): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,void>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ]
-  QuanLySinhVien.vcxproj -> E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Debug\QuanLySinhVien.exe
+﻿  FactoryMenu.cpp
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\FactoryMenu.cpp(1,1): error C2859: E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Debug\vc142.pdb is not the pdb file that was used when this precompiled header was created, recreate the precompiled header.
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\FactoryMenu.cpp(1,1): error C2859: E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Debug\vc142.idb is not the idb file that was used when this precompiled header was created, recreate the precompiled header.
+  Student.cpp
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Student.cpp(1,1): error C2859: E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Debug\vc142.pdb is not the pdb file that was used when this precompiled header was created, recreate the precompiled header.
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Student.cpp(1,1): error C2859: E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Debug\vc142.idb is not the idb file that was used when this precompiled header was created, recreate the precompiled header.
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Student.cpp(108,17): warning C4566: character represented by universal-character-name '\u01AF' cannot be represented in the current code page (1252)
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Student.cpp(118,17): warning C4566: character represented by universal-character-name '\u1EAC' cannot be represented in the current code page (1252)
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Student.cpp(118,17): warning C4566: character represented by universal-character-name '\u1EA0' cannot be represented in the current code page (1252)
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Student.cpp(221,14): warning C4566: character represented by universal-character-name '\u0111' cannot be represented in the current code page (1252)
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Student.cpp(221,14): warning C4566: character represented by universal-character-name '\u1ECB' cannot be represented in the current code page (1252)
+E:\NguyenQuangLinh\TTKTLT\QuanLySinhVien\Student.cpp(221,14): warning C4566: character represented by universal-character-name '\u1EA1' cannot be represented in the current code page (1252)
+  Generating Code...
