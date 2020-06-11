@@ -1,9 +1,15 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "FileManage.h"
 #include"Student.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <locale>
+#include <string>
+#include <iostream>
+#include <clocale>
+#include <locale>
+#include <vector>
 using namespace std;
 
 
@@ -15,45 +21,58 @@ FileManage::FileManage()
 FileManage::~FileManage()
 {
 }
+wstring ReadOneLine(FILE* File, wstring Line) {
 
+	wchar_t LineOfChars[512];
+	fgetws(LineOfChars, 512, File);
+
+	Line.clear();
+	Line.append(LineOfChars);
+
+	return Line;
+}
 vector<Student> FileManage::OpenFile()
 {
-	string line;
-	ifstream myfile(this->path);
+	/*return	PrintFile();*/
 	vector<Student>dsSV = vector<Student>();
-	if (myfile.is_open())
-	{
-		Student sv;
-		while (getline(myfile, line))
+	FILE* file;
+	wstring line;
+	wstring FileName = L"E:/NguyenQuangLinh/TTKTLT/QuanLySinhVien/Data/DataStudent.txt";
+	_wfopen_s(&file, FileName.c_str(), L"r,ccs=UTF-16LE");
+	Student sv;
+
+	while (!feof(file) && !ferror(file)) {
+		line = ReadOneLine(file, line);
+		if (line.size() < 500)
 		{
-			if (line.find("Thông tin sinh viên: ") != string::npos)
+			if (line.find(L"ThÃ´ng tin sinh viÃªn: ") != wstring::npos)
 			{
 				if (!sv.CheckStudentNull())
 					dsSV.push_back(sv);
 				sv = Student();
 			}
-			else if (line.find("id: ") != string::npos) {
-				sv.SetId(SlitLine(line,"id: ").at(0));
+			else if (line.find(L"id: ") != string::npos) {
+				sv.SetId(SlitLine(line, L"id: ").at(0));
 			}
-			else if (line.find("idClass: ") != string::npos) {
-				sv.SetIdClass(SlitLine(line, "idClass: ").at(0));
+			else if (line.find(L"idClass: ") != string::npos) {
+				sv.SetIdClass(SlitLine(line, L"idClass: ").at(0));
 			}
-			else if (line.find("Name: ") != string::npos) {
-				sv.SetName(SlitLine(line, "Name: ").at(0));
+			else if (line.find(L"Name: ") != string::npos) {
+				sv.SetName(SlitLine(line, L"Name: ").at(0));
 			}
-			else if(line.find("DateTime: ")!=string::npos)
+			else if (line.find(L"DateTime: ") != string::npos)
 			{
-				sv.SetDateTime(SlitLine(line, "DateTime: ").at(0));
+				sv.SetDateTime(SlitLine(line, L"DateTime: ").at(0));
 			}
-			else if (line.find("NumBer: ") != string::npos)
+			else if (line.find(L"NumBer: ") != string::npos)
 			{
-				sv.SetNumBer(SlitLine(line, "NumBer: ").at(0));
+				sv.SetNumBer(SlitLine(line, L"NumBer: ").at(0));
 			}
 		}
-		if (!sv.CheckStudentNull())
-			dsSV.push_back(sv);
-		myfile.close();
 	}
+	if (!sv.CheckStudentNull())
+		dsSV.push_back(sv);
+	fclose(file);
 	return dsSV;
 }
 
@@ -61,12 +80,11 @@ bool FileManage::SaveData(wstring data)
 {
 	try
 	{
-		ofstream myfile;
-		myfile.open(this->path, std::ios_base::app);
-		string str(data.begin(), data.end());
-		str += "\n";
-		myfile << str;
-		myfile.close();
+		wofstream file(this->path, ios_base::binary | ios_base::app); //binary is important to set!  
+		wchar_t buffer[128];
+		file.rdbuf()->pubsetbuf(buffer, 128);
+		file.put(0xFEFF); //this is the BOM flag, UTF16 needs this, but mirosoft's UNICODE doesn't, so you can skip this line, if any.  
+		file << data + L"\n";
 		return true;
 	}
 	catch (const std::exception&)
@@ -76,15 +94,15 @@ bool FileManage::SaveData(wstring data)
 
 }
 
-vector<wstring> FileManage::SlitLine(string line, string charS)
+vector<wstring> FileManage::SlitLine(wstring line, wstring charS)
 {
 	vector<wstring>dsChuoi = vector<wstring>();
 	size_t pos = 0;
-	std::string token;
+	std::wstring token;
 	while ((pos = line.find(charS)) != std::string::npos) {
 		token = line.substr(0, pos);
-		if (token!="")
-			dsChuoi.push_back(wstring(token.begin(), token.end()));
+		if (token != L"")
+			dsChuoi.push_back(token);
 		line.erase(0, pos + charS.length());
 	}
 	dsChuoi.push_back(wstring(line.begin(), line.end()));

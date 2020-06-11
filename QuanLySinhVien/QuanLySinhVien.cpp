@@ -13,10 +13,8 @@
 #include <conio.h>
 #include <wchar.h>
 #include <iterator>
-
 #include "Student.h"
 #include "FileManage.h"
-#include "FactoryMenu.h"
 
 using namespace std;
 struct oxoy
@@ -40,6 +38,7 @@ const int width = 1000;
 const int height = 800;
 int ox = 0;
 int oy = 0;
+int viTriMenu = 1;
 void removeScrollbar();
 void InputSelect(int x);
 void HuongDanMenu_Main(wstring str);
@@ -73,6 +72,8 @@ bool getconchar(KEY_EVENT_RECORD& krec)
 int main() {
 	SetUpUnicode();
 	removeScrollbar();
+	/*FileManage fm;
+	fm.SaveData(L"Nguyễn nguyện nguyền");*/
 	Menu_Main(L"Chào mừng bạn đến với phần mềm quản lý sinh viên");
 
 }
@@ -238,12 +239,24 @@ void Print_List(vector<Student> dsSV)
 	gotoxy(ox, oy, L"Danh sách sinh viên", false);
 	oy = 6;
 	ox = 30;
-	gotoxy(ox, oy, L"STT\t Mã sinh viên\t Mã lớp\t\t Tên sinh viên\t\t Ngày sinh\t Điểm trung bình", false);
+	//gotoxy(ox, oy, L"STT\t Mã sinh viên\t Mã lớp\t\t Tên sinh viên\t\t Ngày sinh\t Điểm trung bình", false);
+	gotoxy(25, oy, L"STT", true);
+	gotoxy(35, oy, L"Mã sinh viên", true);
+	gotoxy(55, oy, L"Mã lớp ", true);
+	gotoxy(75, oy, L"Họ và tên", true);
+	gotoxy(100, oy, L"Ngày sinh", true);
+	gotoxy(115, oy, L"Điểm trung bình", false);
+	oy += 2;
 	for (int i = 0; i < cout; i++)
 	{
 		selected[i]. ox = ox;
 		selected[i].oy = oy;;
-		gotoxy(ox, oy, dsSV.at(i).Print_SV(i+1), false);
+		gotoxy(26, oy, to_wstring(i+1), true);
+		gotoxy(36, oy, dsSV.at(i).GetId(), true);
+		gotoxy(54, oy, dsSV.at(i).GetIdClass(), true);
+		gotoxy(73, oy, dsSV.at(i).GetName(), true);
+		gotoxy(99, oy, dsSV.at(i).GetDateTime(), true);
+		gotoxy(117, oy, dsSV.at(i).GetNumBer(), false);
 	}
 
 }
@@ -405,7 +418,7 @@ int HuongDanMenu_Luu()
 	gotoxy(ox, oy, L"Bạn có muốn lưu hay không ?", false);
 	selected[0].ox = ox;
 	selected[0].oy = oy;
-	gotoxy(ox, oy, L"1.Lưu).", false);
+	gotoxy(ox, oy, L"1.Lưu.", false);
 
 	ox += 20;
 	oy -= 2;

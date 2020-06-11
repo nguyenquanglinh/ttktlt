@@ -355,7 +355,7 @@ bool Student::Isnumber(char x)
 {
 	if (x == 46)
 		return true;
-	else if (x >= 48 && x < 57)
+	else if (x >= 48 && x < 58)
 	{
 		return true;
 	}
