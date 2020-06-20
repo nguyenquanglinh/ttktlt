@@ -26,24 +26,28 @@ struct oxoy
 void gotoxy(int x, int y, wstring str, bool control);
 void SetRect();
 void SetUpUnicode();
-void Menu_Main(wstring str);
+void Menu_Main(wstring str = L"Menu quản lý sinh viên");
 void Menu_Add_New_Student();
 void Menu_Print_List();
 void Print_List(vector<Student>dsSV);
 void Menu_Sort();
 void Menu_Find();
 void Menu_Statistic();
+Student NhapThongTinSV(Student st);
 Student AddStudent();
 const int width = 1000;
 const int height = 800;
 int ox = 0;
 int oy = 0;
-int viTriMenu = 1;
-void removeScrollbar();
-void InputSelect(int x);
+int viTriMenu = 0;
+int removeScrollbar(int x);
+void InputSelect();
 void HuongDanMenu_Main(wstring str);
 void HuongDanMenu_AddStudent();
 int HuongDanMenu_Luu();
+int HuongDanMenu_Thoat();
+int HuongDanMenu_NhapLai();
+void HuongDanMenu_KetQuaLuu(wstring st=L"Đã lưu thông tin sinh viên thành công");
 bool MenuBase(wstring str);
 bool getconchar(KEY_EVENT_RECORD& krec)
 {
@@ -68,18 +72,24 @@ bool getconchar(KEY_EVENT_RECORD& krec)
 	}
 	return false; //future ????
 }
-
+bool Thoat;
 int main() {
 	SetUpUnicode();
-	removeScrollbar();
+	removeScrollbar(1);
 	/*FileManage fm;
 	fm.SaveData(L"Nguyễn nguyện nguyền");*/
-	Menu_Main(L"Chào mừng bạn đến với phần mềm quản lý sinh viên");
+	while (true)
+	{
+		InputSelect();
+	}
 
 }
 
 void gotoxy(int x, int y, wstring str, bool control)
 {
+	if (removeScrollbar(0) <= oy) {
+		removeScrollbar(oy - removeScrollbar(0) + 10);
+	}
 	static HANDLE h = NULL;
 	if (!h)
 		h = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -128,13 +138,12 @@ void Menu_Main(wstring str)
 		selected[i].ox = ox;
 		selected[i].oy = oy;
 		gotoxy(ox, oy, a[i], false);
-
 	}
 	selected[6].ox = ox + 20;
 	selected[6].oy = oy;
 	gotoxy(ox, oy, L"Lựa chọn của bạn là: ", false);
 	int vtriHTai = 6;
-	while (true)
+	while (viTriMenu == 0)
 	{
 		KEY_EVENT_RECORD key;
 		getconchar(key);
@@ -142,7 +151,8 @@ void Menu_Main(wstring str)
 		{
 		case 37://trai quay lại
 		{
-			std::wcout << "trái";
+			Menu_Main(L"Chào mừng bạn đến với phần mềm quản lý sinh viên");
+			viTriMenu = 1;
 			break;
 		}
 		case 38://lên
@@ -159,7 +169,7 @@ void Menu_Main(wstring str)
 		case 39://phải là lựa chọn
 		{
 			if (vtriHTai + 1 == 6)return;
-			InputSelect(vtriHTai + 1);
+			viTriMenu = vtriHTai + 1;
 			break;
 		}
 		case 40://xuống
@@ -183,7 +193,7 @@ void Menu_Main(wstring str)
 				gotoxy(ox + 20, oy / 2, L"Chương trình đã kết thúc.Hẹn gặp lại bạn :)\n\n\n\n\n\n\n\n", false);
 				return;
 			}
-			InputSelect(vtriHTai + 1);
+			viTriMenu = vtriHTai + 1;
 			break;
 		}
 		default://nhập giá trị
@@ -194,31 +204,44 @@ void Menu_Main(wstring str)
 				gotoxy(ox + 20, oy / 2, L"Chương trình đã kết thúc.Hẹn gặp lại bạn :)\n\n\n\n\n\n\n\n", false);
 				return;
 			}
-			InputSelect(x);
+			viTriMenu = x;
 			break;
 		}
 		}
-	}
 
+	}
 }
 
 void Menu_Add_New_Student()
 {
-	HuongDanMenu_AddStudent();
-	Student st = AddStudent();
-	if (!st.CheckStudentNull()) {
-		if (HuongDanMenu_Luu() == 0)
-		{
-			FileManage fn;
-			if (fn.SaveData(st.toString()))
-				Menu_Main(L"Lưu thành công. ");
+	while (viTriMenu == 1)
+	{
+		HuongDanMenu_AddStudent();
+		Student st = AddStudent();
+		if (st.Thoat)
+			viTriMenu = 0;
+		else if (st.NhapLai)
+			viTriMenu = 1;
+		else if (!st.CheckStudentNull() && !st.Thoat && !st.NhapLai) {
+			if (HuongDanMenu_Luu() == 0)
+			{
+				FileManage fn;
+				viTriMenu = 0;
+				if (fn.SaveData(st.toString())) {
+					HuongDanMenu_KetQuaLuu();
+				}
+				else
+				{
+					HuongDanMenu_KetQuaLuu(L"Lưu kết quả không thành công vui lòng thử lại sau");
+				}
+				/*Menu_Main(L"Lưu thành công. ");
 			else
 			{
-				Menu_Main(L"Chào mừng bạn quay trở lại. ");
+				Menu_Main(L"Lưu ");
+			}*/
 			}
 		}
 	}
-	//gotoxy(ox, oy, st.toString());
 }
 
 void Menu_Print_List()
@@ -233,7 +256,7 @@ void Print_List(vector<Student> dsSV)
 	system("CLS");
 	system("color 30");
 	int cout = dsSV.size();
-	oxoy* selected = new oxoy[cout];
+	oxoy* selected = new oxoy[cout+2];
 	ox = 60;
 	oy = 2;
 	gotoxy(ox, oy, L"Danh sách sinh viên", false);
@@ -247,16 +270,92 @@ void Print_List(vector<Student> dsSV)
 	gotoxy(100, oy, L"Ngày sinh", true);
 	gotoxy(115, oy, L"Điểm trung bình", false);
 	oy += 2;
+
 	for (int i = 0; i < cout; i++)
 	{
-		selected[i]. ox = ox;
-		selected[i].oy = oy;;
-		gotoxy(26, oy, to_wstring(i+1), true);
+		selected[i].ox = 26;
+		selected[i].oy = oy-1;
+		gotoxy(26, oy, to_wstring(i + 1), true);
 		gotoxy(36, oy, dsSV.at(i).GetId(), true);
 		gotoxy(54, oy, dsSV.at(i).GetIdClass(), true);
 		gotoxy(73, oy, dsSV.at(i).GetName(), true);
 		gotoxy(99, oy, dsSV.at(i).GetDateTime(), true);
 		gotoxy(117, oy, dsSV.at(i).GetNumBer(), false);
+	}
+	gotoxy(0, oy, L"---------------------------------------------------------------------------------------------------------------------------------------------------", false);
+	selected[cout + 1].ox = ox;
+	selected[cout + 1].oy = oy;
+	gotoxy(ox, oy, L"Quay lại", true);
+	selected[cout + 2].ox = 100;
+	selected[cout + 2].oy = oy;
+	gotoxy(100, oy, L"Thoát", true);
+	cout += 2;
+	int vtriHTai = cout;
+	while (true)
+	{
+		if (viTriMenu == 2) {
+			KEY_EVENT_RECORD key;
+			getconchar(key);
+			switch (key.wVirtualKeyCode)
+			{
+			case 37://trai quay lại
+			{
+				viTriMenu = 0;
+				break;
+			}
+			case 38://lên
+			{
+				if (vtriHTai >= 0)
+				{
+					vtriHTai--;
+					if (vtriHTai < 0)
+						vtriHTai = cout;
+				}
+				gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
+				break;
+			}
+			
+			case 40://xuống
+			{
+
+				if (vtriHTai <= cout)
+				{
+					vtriHTai++;
+					if (vtriHTai > cout)
+						vtriHTai = 0;
+				}
+
+				gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
+				break;
+			}
+			case 13: //enter lựa chọn
+			{
+				if (vtriHTai + 1 == cout + 1)
+				{
+					system("CLS");
+					gotoxy(ox + 20, oy / 2, L"Chương trình đã kết thúc.Hẹn gặp lại bạn :)\n\n\n\n\n\n\n\n", false);
+					return;
+				}
+				viTriMenu = vtriHTai + 1;
+				break;
+			}
+			default://nhập giá trị
+			{
+				int x = (int)key.uChar.AsciiChar - 48;
+				if (x == 6) {
+					system("CLS");
+					gotoxy(ox + 20, oy / 2, L"Chương trình đã kết thúc.Hẹn gặp lại bạn :)\n\n\n\n\n\n\n\n", false);
+					return;
+				}
+				viTriMenu = x;
+				break;
+			}
+			}
+		}
+		else
+		{
+			break;
+		}
 	}
 
 }
@@ -275,7 +374,56 @@ void Menu_Statistic()
 {
 
 }
+Student NhapThongTinSV(Student st) {
+	while (st.GetId() == L"" && !st.Thoat && !st.NhapLai  )
+	{
+		gotoxy(ox, oy, L"1.Mã sinh viên: ", false);
+		st.InPutId();
+		if (st.GetId().length() != 8)
+			st.SetId(L"");
+	}
+	//gotoxy(ox, oy, st.GetId());
 
+	//mã lớp
+	while (st.GetIdClass() == L"" && !st.Thoat && !st.NhapLai )
+	{
+		gotoxy(ox, oy, L"2.Mã lớp: ", false);
+		st.InPutIdClass();
+		if (st.GetIdClass().length() != 8)
+			st.SetIdClass(L"");
+	}
+	//gotoxy(ox, oy, st.GetIdClass());
+
+	//tên 
+	while (st.GetName() == L"" && !st.Thoat && !st.NhapLai)
+	{
+		gotoxy(ox, oy, L"3.Tên sinh viên: ", false);
+		st.InputName();
+		if (st.GetName().length() == 0)
+			st.SetName(L"");
+	}
+	//gotoxy(ox, oy, st.GetName());
+
+	//datetime
+	while (st.GetDateTime() == L"" && !st.Thoat && !st.NhapLai)
+	{
+		gotoxy(ox, oy, L"4.Ngày tháng năm sinh: ", false);
+		st.InPutDateTime();
+		if (!st.CheckDate(st.GetDateTime()))
+			st.SetDateTime(L"");
+	}
+	//gotoxy(ox, oy, st.GetDateTime());
+	//number
+	while (st.GetNumBer() == L"" && !st.Thoat && !st.NhapLai)
+	{
+		gotoxy(ox, oy, L"5.Điểm trung bình: ", false);
+		st.InputNumBer();
+		if (st.GetNumBer().length() == 0)
+			st.SetNumBer(L"");
+		else viTriMenu = 0;
+	}
+	return st;
+}
 Student AddStudent()
 {
 	/*wstring a[5];
@@ -284,67 +432,57 @@ Student AddStudent()
 	a[2] = L"3.Tên sinh viên: ";
 	a[3] = L"4.Ngày tháng năm sinh: ";
 	a[4] = L"5.Điểm trung bình: ";*/
-	Student st;
+	Student st = Student();
 	oy -= 4;
 	ox = 20;
-	//mã sinh viên
-	while (st.GetId() == L"")
+	while (!st.NhapLai && !st.Thoat&&viTriMenu==1)
 	{
-		gotoxy(ox, oy, L"1.Mã sinh viên: ", false);
-		st.InPutId();
-	}
-	//gotoxy(ox, oy, st.GetId());
+		st = NhapThongTinSV(st);
+		if (st.Thoat) {
+			if (HuongDanMenu_Thoat() == 1)
+			{
+				st.Thoat = false;
+			}
+		}
+		else if (st.NhapLai)
+		{
 
-	//mã lớp
-	while (st.GetIdClass() == L"")
-	{
-		gotoxy(ox, oy, L"2.Mã lớp: ", false);
-		st.InPutIdClass();
-	}
-	//gotoxy(ox, oy, st.GetIdClass());
+			if (HuongDanMenu_NhapLai() == 1) {
 
-	//tên 
-	while (st.GetName() == L"")
-	{
-		gotoxy(ox, oy, L"3.Tên sinh viên: ", false);
-		st.InputName();
-	}
-	//gotoxy(ox, oy, st.GetName());
+				st.NhapLai = false;
+			}
+			else
+			{
+				viTriMenu = 1;
 
-	//datetime
-	while (st.GetDateTime() == L"")
-	{
-		gotoxy(ox, oy, L"4.Ngày tháng năm sinh: ", false);
-		st.InPutDateTime();
+			}
+
+		}
 	}
-	//gotoxy(ox, oy, st.GetDateTime());
-	//number
-	while (st.GetNumBer() == L"")
-	{
-		gotoxy(ox, oy, L"5.Điểm trung bình: ", false);
-		st.InputNumBer();
-	}
-	//gotoxy(ox, oy, std::to_wstring(st.GetNumBer()));
 	return st;
 }
-
-void removeScrollbar()
+int removeScrollbar(int x)
 {
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO info;
 	GetConsoleScreenBufferInfo(handle, &info);
 	COORD new_size =
 	{
-		info.srWindow.Right - info.srWindow.Left + 1,
-		info.srWindow.Bottom - info.srWindow.Top + 1
+		info.srWindow.Right - info.srWindow.Left + x,
+		info.srWindow.Bottom - info.srWindow.Top + x
 	};
 	SetConsoleScreenBufferSize(handle, new_size);
+	return new_size.Y;
 }
 
-void InputSelect(int x)
+void InputSelect()
 {
-	switch (x)
+	switch (viTriMenu)
 	{
+	case 0: {
+		Menu_Main();
+		break;
+	}
 	case 1: {
 		Menu_Add_New_Student();
 		break;
@@ -367,9 +505,8 @@ void InputSelect(int x)
 	}
 	case 6:
 	{
-		return;
+		Thoat = true;
 	}
-
 	default:
 		break;
 	}
@@ -406,6 +543,8 @@ void HuongDanMenu_AddStudent()
 	gotoxy(ox, oy, L"Họ tên(tối đa 30 ký tự).", false);
 	gotoxy(ox, oy, L"Ngày tháng năm sinh(dd/mm/yyyy)", false);
 	gotoxy(ox, oy, L"Điểm trung bình[0,10]", false);
+	gotoxy(ox, oy, L"ASC:Thoát", false);
+	gotoxy(ox, oy, L"ALT:Nhập lại", false);
 }
 
 int HuongDanMenu_Luu()
@@ -425,7 +564,7 @@ int HuongDanMenu_Luu()
 	selected[1].ox = ox;
 	selected[1].oy = oy;
 	gotoxy(ox, oy, L"2.không lưu.", false);
-
+	ox -= 20;
 	int vtriHTai = 0;
 	while (true)
 	{
@@ -461,15 +600,146 @@ int HuongDanMenu_Luu()
 		}
 		default:
 		{
-			/*int x = (int)key.uChar.AsciiChar - 48;
-			if (x == 6) {
-				system("CLS");
-				gotoxy(ox + 20, oy / 2, L"Chương trình đã kết thúc.Hẹn gặp lại bạn :)\n\n\n\n\n\n\n\n", false);
-				return;
-			}
-			InputSelect(x);*/
+
 			break;
 		}
+		}
+	}
+}
+
+int HuongDanMenu_Thoat()
+{
+	oxoy selected[2];
+	gotoxy(ox, oy, L"Bạn có muốn thoát không ?", false);
+	selected[0].ox = ox;
+	selected[0].oy = oy;
+	gotoxy(ox, oy, L"1.Có", false);
+
+	ox += 20;
+	oy -= 2;
+	selected[1].ox = ox;
+	selected[1].oy = oy;
+	gotoxy(ox, oy, L"2.Không", false);
+	ox -= 20;
+	int vtriHTai = 0;
+	while (true)
+	{
+		gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
+		KEY_EVENT_RECORD key;
+		getconchar(key);
+		switch (key.wVirtualKeyCode)
+		{
+		case 37://trai
+		{
+			if (vtriHTai == 0)
+				vtriHTai = 1;
+			else
+			{
+				vtriHTai = 0;
+			}
+			break;
+		}
+
+		case 39://phải 
+		{
+			if (vtriHTai == 0)
+				vtriHTai = 1;
+			else
+			{
+				vtriHTai = 0;
+			}
+			break;
+		}
+		case 13: //enter lựa chọn
+		{
+			return vtriHTai;
+		}
+		default:
+		{
+			break;
+		}
+		}
+	}
+}
+
+int HuongDanMenu_NhapLai()
+{
+	system("color 31");
+	oxoy selected[2];
+	gotoxy(ox, oy, L"Bạn có muốn nhập lại không ?", false);
+	selected[0].ox = ox;
+	selected[0].oy = oy;
+	gotoxy(ox, oy, L"1.Có", false);
+
+	ox += 20;
+	oy -= 2;
+	selected[1].ox = ox;
+	selected[1].oy = oy;
+	gotoxy(ox, oy, L"2.Không", false);
+
+	ox -= 20;
+	int vtriHTai = 0;
+	while (true)
+	{
+		gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
+		KEY_EVENT_RECORD key;
+		getconchar(key);
+		switch (key.wVirtualKeyCode)
+		{
+		case 37://trai
+		{
+			if (vtriHTai == 0)
+				vtriHTai = 1;
+			else
+			{
+				vtriHTai = 0;
+			}
+			break;
+		}
+
+		case 39://phải 
+		{
+			if (vtriHTai == 0)
+				vtriHTai = 1;
+			else
+			{
+				vtriHTai = 0;
+			}
+			break;
+		}
+		case 13: //enter lựa chọn
+		{
+			return vtriHTai;
+		}
+		default:
+		{
+			break;
+		}
+		}
+	}
+}
+
+void HuongDanMenu_KetQuaLuu(wstring st)
+{
+	system("color 31");
+	oxoy selected[1];
+	gotoxy(ox, oy, st, false);
+	ox += 20;
+	selected[0].ox = ox;
+	selected[0].oy = oy;
+	gotoxy(ox, oy, L"OK", false);
+	ox -= 20;
+	while (true)
+	{
+		gotoxy(selected[0].ox, selected[0].oy, L"", true);
+		KEY_EVENT_RECORD key;
+		getconchar(key);
+		switch (key.wVirtualKeyCode)
+		{
+		case 13: //enter lựa chọn
+			return;
+		default:
+			return;
 		}
 	}
 }

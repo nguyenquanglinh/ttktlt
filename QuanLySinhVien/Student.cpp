@@ -77,16 +77,6 @@ void Student::InPutDateTime()
 {
 	if (CheckKey(4))
 		return;
-	else
-	{
-		wcin >> this->dateTime;
-		if (!CheckDate(this->dateTime))
-		{
-			this->dateTime = L"0";
-			return;
-		}
-	}
-
 }
 
 void Student::InputNumBer()
@@ -103,26 +93,17 @@ bool Student::CheckKey(int x)
 
 	switch (key.wVirtualKeyCode)
 	{
-	case 16:
-	{
-		std::wcout << "LƯU";
-		return true;
-	}
+
 	case 27:
 	{
-		std::wcout << "THOÁT";
-		return true;
+		Thoat = true;
+		return false;
 	}
 	case 18:
 	{
-		std::wcout << "NHẬP LẠI";
+		NhapLai = true;
 		return true;
 	}
-	/*case 32:
-	{
-		std::wcout << "Dấu cách";
-		return true;
-	}*/
 	case 13:
 	{
 
@@ -135,25 +116,20 @@ bool Student::CheckKey(int x)
 			if (this->idClass.length() != 8)
 				this->idClass = L"";
 		}
-		else if (x == 3)
-		{
-
-		}
 		else if (x == 4)
 		{
-			if (!CheckDate(this->dateTime))
-			{
-				this->dateTime = L"";
-			}
+				if (!CheckDate(this->dateTime))
+				{
+					this->dateTime = L"";
+				}
 		}
 		else if (x == 5) {
 			try
 			{
-				int y = stoi(this->number);
+				float y = stoi(this->number);
 				if (10 < y || y < 1) {
 					this->number = L"";
 				}
-				else this->number = std::to_wstring(y);
 			}
 			catch (const std::exception&)
 			{
@@ -218,7 +194,6 @@ bool Student::CheckDate(wstring str)
 			if (token == "")
 				continue;
 			if (dem > 2) {
-				wcout << "Sai định dạng";
 				return false;
 			}
 			else {
@@ -227,14 +202,12 @@ bool Student::CheckDate(wstring str)
 					if (1 > x || x > 32)
 					{
 						return false;
-						wcout << L"\tNgày sai";
 					}
 				}
 				else if (dem == 2)
 				{
 					if (0 > x || x > 12)
 					{
-						wcout << L"\tTháng sai";
 						return false;
 					}
 
@@ -246,19 +219,16 @@ bool Student::CheckDate(wstring str)
 		}
 		if (dem == 2)
 		{
-			wcout << L"\tKhông thể định dạng kiểu dữ liệu";
 			return false;
 		}
 		if (1990 > stoi(s) || stoi(s) > 2020)
 		{
-			wcout << L"\tNăm sai";
 			return false;
 		}
 		return true;
 	}
 	catch (const std::exception&)
 	{
-		wcout << L"\tKhông thể định dạng kiểu dữ liệu";
 		return false;
 	}
 

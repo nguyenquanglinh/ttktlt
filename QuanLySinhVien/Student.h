@@ -32,6 +32,8 @@ public:
 	wstring toString();
 	bool GetConChar(KEY_EVENT_RECORD & krec);
 	bool Isnumber(char x);
+	bool Thoat = false;
+	bool NhapLai = false;
 	
 private:
 	std::wstring idClass;
