@@ -4,7 +4,29 @@
 ThuatToan::ThuatToan()
 {
 }
-
+ThuatToan::ThuatToan(int thuatToan, int loai) {
+	this->thuatToan = thuatToan;
+	this->loai = loai;
+}
+vector<Student> ThuatToan::Run(vector<Student> dssv)
+{
+	switch (thuatToan)
+	{
+	case 1:
+	 return	BubbleSort(dssv, loai);
+	case 2:
+		return QuickSort(dssv, loai);
+	case 3:
+		return SelectSort(dssv, loai);
+	case 4:
+		return HeapSort(dssv, loai);
+	case 5:return InsertSort(dssv, loai);
+	case 6: return ShellSort(dssv, loai);
+	case 7:return MergeSort(dssv, loai);
+	default:
+		return vector<Student>();
+	}
+}
 vector<Student> ThuatToan::BubbleSort(vector<Student> dssv, int loai)
 {
 	int coit = dssv.size();

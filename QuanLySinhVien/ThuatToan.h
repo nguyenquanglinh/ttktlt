@@ -5,6 +5,8 @@ class ThuatToan
 {
 public:
 	ThuatToan();
+	ThuatToan(int thuatToan, int loai);
+	vector<Student>Run(vector<Student>dssv);
 	vector<Student> BubbleSort(vector<Student> dssv, int loai);
 	vector<Student> QuickSort(vector<Student> dssv, int loai);
 	vector<Student> SelectSort(vector<Student> dssv, int loai);
@@ -23,5 +25,7 @@ public:
 	void maxHeapify(int index, int len, Student* dssv, int loai);
 	void  merge(Student* dssv, int  left, int  center, int  right, int loai);
 	void  MgSort(Student* dssv, int  left,  int  right, int loai);
+	int thuatToan;
+	int loai;
 };
 

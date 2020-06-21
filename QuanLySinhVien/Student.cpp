@@ -99,6 +99,10 @@ bool Student::CheckKey(int x)
 		Thoat = true;
 		return false;
 	}
+	case 37: {
+		Thoat = true;
+		return false;
+	}
 	case 18:
 	{
 		NhapLai = true;
