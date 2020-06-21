@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <codecvt>
+#include <fstream>
+#include <locale>
+#include <vector>
 using namespace std;
 class FileManage
 {

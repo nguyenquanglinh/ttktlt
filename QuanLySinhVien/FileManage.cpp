@@ -1,17 +1,5 @@
 ﻿#include "stdafx.h"
 #include "FileManage.h"
-#include"Student.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <locale>
-#include <string>
-#include <iostream>
-#include <clocale>
-#include <locale>
-#include <vector>
-using namespace std;
-
 
 FileManage::FileManage()
 {

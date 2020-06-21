@@ -15,6 +15,7 @@
 #include <iterator>
 #include "Student.h"
 #include "FileManage.h"
+#include "ThuatToan.h"
 
 using namespace std;
 struct oxoy
@@ -44,10 +45,13 @@ int removeScrollbar(int x);
 void InputSelect();
 void HuongDanMenu_Main(wstring str);
 void HuongDanMenu_AddStudent();
+void HuongDanMenu_KetQuaLuu(wstring st = L"Đã lưu thông tin sinh viên thành công");
+void HuongDanMenu_SangTrai(wstring st = L"Bấm nút mũi tên sang trái để quay về");
+
 int HuongDanMenu_Luu();
 int HuongDanMenu_Thoat();
 int HuongDanMenu_NhapLai();
-void HuongDanMenu_KetQuaLuu(wstring st=L"Đã lưu thông tin sinh viên thành công");
+
 bool MenuBase(wstring str);
 bool getconchar(KEY_EVENT_RECORD& krec)
 {
@@ -76,13 +80,31 @@ bool Thoat;
 int main() {
 	SetUpUnicode();
 	removeScrollbar(1);
+	/*for (size_t i = 0; i < 255; i++)
+	{
+		wcout << (char)201;
+	}
+	*/
 	/*FileManage fm;
 	fm.SaveData(L"Nguyễn nguyện nguyền");*/
-	while (true)
+	/*while (true)
 	{
 		InputSelect();
-	}
-
+	}*/
+	/*bool x = ThuatToan().GetHashCode(L"123") < ThuatToan().GetHashCode(L"124");
+	wcout << x;*/
+	//Print_List(ThuatToan().BubbleSort(FileManage().OpenFile(),1));
+	//Print_List(ThuatToan().QuickSort(FileManage().OpenFile(), 1));
+	//Print_List(ThuatToan().SelectSort(FileManage().OpenFile(), 1));
+	//Print_List(ThuatToan().InsertSort(FileManage().OpenFile(), 1));
+	//Print_List(ThuatToan().ShellSort(FileManage().OpenFile(), 1));
+	//Print_List(ThuatToan().HeapSort(FileManage().OpenFile(), 1));
+	Print_List(ThuatToan().MergeSort(FileManage().OpenFile(), 1));
+	/*vector<int> NUMBERS = vector<int>
+	{ 49 ,  38 ,  65 ,  97 ,  76 ,  13 ,  27 ,  78 ,  34 ,
+		12 ,  64 ,  5 ,  4 ,  62 ,  99 ,  98 ,  54 ,  56 ,
+		17 ,  18 ,  23 ,  34 ,  15 ,  35 ,  25 ,  53 ,  51 };
+	vector<int> x = ThuatToan().BubbleSort(NUMBERS, 1);*/
 }
 
 void gotoxy(int x, int y, wstring str, bool control)
@@ -256,7 +278,7 @@ void Print_List(vector<Student> dsSV)
 	system("CLS");
 	system("color 30");
 	int cout = dsSV.size();
-	oxoy* selected = new oxoy[cout+2];
+	oxoy* selected = new oxoy[cout + 2];
 	ox = 60;
 	oy = 2;
 	gotoxy(ox, oy, L"Danh sách sinh viên", false);
@@ -274,7 +296,7 @@ void Print_List(vector<Student> dsSV)
 	for (int i = 0; i < cout; i++)
 	{
 		selected[i].ox = 26;
-		selected[i].oy = oy-1;
+		selected[i].oy = oy - 1;
 		gotoxy(26, oy, to_wstring(i + 1), true);
 		gotoxy(36, oy, dsSV.at(i).GetId(), true);
 		gotoxy(54, oy, dsSV.at(i).GetIdClass(), true);
@@ -314,7 +336,7 @@ void Print_List(vector<Student> dsSV)
 				gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
 				break;
 			}
-			
+
 			case 40://xuống
 			{
 
@@ -330,14 +352,15 @@ void Print_List(vector<Student> dsSV)
 			}
 			case 13: //enter lựa chọn
 			{
-				if (vtriHTai + 1 == cout + 1)
-				{
-					system("CLS");
-					gotoxy(ox + 20, oy / 2, L"Chương trình đã kết thúc.Hẹn gặp lại bạn :)\n\n\n\n\n\n\n\n", false);
-					return;
+				if (vtriHTai == cout)
+					viTriMenu = 6;
+				else if (vtriHTai == cout - 1)
+					viTriMenu = 0;
+				else {
+					HuongDanMenu_SangTrai();
+					viTriMenu = 2;
 				}
-				viTriMenu = vtriHTai + 1;
-				break;
+				return;
 			}
 			default://nhập giá trị
 			{
@@ -375,7 +398,7 @@ void Menu_Statistic()
 
 }
 Student NhapThongTinSV(Student st) {
-	while (st.GetId() == L"" && !st.Thoat && !st.NhapLai  )
+	while (st.GetId() == L"" && !st.Thoat && !st.NhapLai)
 	{
 		gotoxy(ox, oy, L"1.Mã sinh viên: ", false);
 		st.InPutId();
@@ -385,7 +408,7 @@ Student NhapThongTinSV(Student st) {
 	//gotoxy(ox, oy, st.GetId());
 
 	//mã lớp
-	while (st.GetIdClass() == L"" && !st.Thoat && !st.NhapLai )
+	while (st.GetIdClass() == L"" && !st.Thoat && !st.NhapLai)
 	{
 		gotoxy(ox, oy, L"2.Mã lớp: ", false);
 		st.InPutIdClass();
@@ -435,7 +458,7 @@ Student AddStudent()
 	Student st = Student();
 	oy -= 4;
 	ox = 20;
-	while (!st.NhapLai && !st.Thoat&&viTriMenu==1)
+	while (!st.NhapLai && !st.Thoat && viTriMenu == 1)
 	{
 		st = NhapThongTinSV(st);
 		if (st.Thoat) {
@@ -723,6 +746,34 @@ void HuongDanMenu_KetQuaLuu(wstring st)
 {
 	system("color 31");
 	oxoy selected[1];
+	gotoxy(ox, oy, st, false);
+	ox += 20;
+	selected[0].ox = ox;
+	selected[0].oy = oy;
+	gotoxy(ox, oy, L"OK", false);
+	ox -= 20;
+	while (true)
+	{
+		gotoxy(selected[0].ox, selected[0].oy, L"", true);
+		KEY_EVENT_RECORD key;
+		getconchar(key);
+		switch (key.wVirtualKeyCode)
+		{
+		case 13: //enter lựa chọn
+			return;
+		default:
+			return;
+		}
+	}
+}
+
+void HuongDanMenu_SangTrai(wstring st)
+{
+	system("cls");
+	system("color 31");
+	oxoy selected[1];
+	ox = 30;
+	oy = 0;
 	gotoxy(ox, oy, st, false);
 	ox += 20;
 	selected[0].ox = ox;
