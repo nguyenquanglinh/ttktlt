@@ -41,13 +41,23 @@ vector<Student> FileManage::OpenFile()
 				sv = Student();
 			}
 			else if (line.find(L"id: ") != string::npos) {
+			
 				sv.SetId(SlitLine(line, L"id: ").at(0));
 			}
 			else if (line.find(L"idClass: ") != string::npos) {
 				sv.SetIdClass(SlitLine(line, L"idClass: ").at(0));
 			}
 			else if (line.find(L"Name: ") != string::npos) {
-				sv.SetName(SlitLine(line, L"Name: ").at(0));
+				wstring name = SlitLine(line, L"Name: ").at(0);
+				vector<wstring>listname = SlitLine(name, L" ");
+				wstring ret = L"";
+				for each (wstring it in listname)
+				{
+					std::transform(it.begin(), it.begin() + 1, it.begin(), ::toupper);
+					std::transform(it.begin() + 1, it.end(), it.begin() + 1, ::tolower);
+					ret +=L" "+ it;
+				}
+				sv.SetName(ret);
 			}
 			else if (line.find(L"DateTime: ") != string::npos)
 			{
@@ -72,7 +82,6 @@ bool FileManage::SaveData(wstring data)
 	wofstream file(this->path, ios_base::binary | ios_base::app); //binary is important to set!  
 	try
 	{
-
 		wchar_t buffer[128];
 		file.rdbuf()->pubsetbuf(buffer, 128);
 		file.put(0xFEFF); //this is the BOM flag, UTF16 needs this, but mirosoft's UNICODE doesn't, so you can skip this line, if any.  
@@ -146,10 +155,7 @@ vector<Student> FileManage::FindSV(wstring line, vector<int>listFind)
 			default:
 				break;
 			}
-
 		}
-
-
 	}
 	return ret;
 }
@@ -164,25 +170,28 @@ void FileManage::SaveDataList(vector<Student> dssv)
 	}
 }
 
-vector<int> FileManage::Statistic()
+vector<vector<int>> FileManage::Statistic(vector<wstring> dsIdLop)
 {
-	vector<Student>dssv = OpenFile();
 	int gioi = 0, kha = 0, tb = 0, yeu = 0;
+	vector<vector<int>>ret;
+	for each (wstring var in dsIdLop)
+	{
+		ret.push_back(StatisticClass(var));
+	}
+	return ret;
+}
+
+vector<wstring> FileManage::GetIdClass()
+{
+	vector<wstring>dsmaLop;
+	vector<Student>dssv = OpenFile();
 	for each (Student var in dssv)
 	{
-		float dtb = stoi(var.GetNumBer());
-		if (dtb < 1.1)
-			yeu++;
-		else if (dtb < 2.1)
-			tb++;
-		else if (dtb < 3.1)
-			kha++;
-		else
-		{
-			gioi++;
-		}
+		bool x = find(dsmaLop.begin(), dsmaLop.end(), var.GetIdClass()) == dsmaLop.end();
+		if (x)
+			dsmaLop.push_back(var.GetIdClass());
 	}
-	return vector<int>{gioi,kha,tb,yeu};
+	return dsmaLop;
 }
 
 vector<int> FileManage::StatisticClass(wstring id)

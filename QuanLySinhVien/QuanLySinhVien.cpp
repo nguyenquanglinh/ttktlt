@@ -82,7 +82,8 @@ void Print_List(vector<Student>dsSV);
 Student NhapThongTinSV(Student st);
 Student AddStudent();
 void InputSelect();
-void Print_TK(vector<int>dssv);
+void Print_TK(vector<int>dssv, wstring idclass);
+void Loop();
 
 int main() {
 	ox = 0;
@@ -427,27 +428,35 @@ void Menu_Find()
 
 void Menu_Statistic()
 {
+
 	HuongDanMenu_Base(L"Menu Thống Kê Sinh Viên", vector<wstring>{L"Bấm mũi tên sang trái để quay lại"});
 	if (HuongDanMenu_Thoat(L"Thống Kê tất cả sinh viên của tất cả các lớp?") == 0) {
-		Print_TK(FileManage().Statistic());
+		vector<wstring>dsId = FileManage().GetIdClass();
+		vector<vector<int>>dstk = FileManage().Statistic(dsId);
+		system("CLS");
+		for (size_t i = 0; i < dstk.size(); i++)
+		{
+			Print_TK(dstk[0], dsId[0]);
+		}
 	}
 	else
 	{
+
 		HuongDanMenu_Base(L"Thống kê theo mã lớp", vector<wstring>{L"Nhập mã lớp"});
 		int x = ox;
 		int y = oy;
 		wstring str = L"";
-		gotoxy(x, y, L"Mã lớp", false);
+		gotoxy(x, y, L"Mã lớp: ", false);
 		while (str == L"")
 		{
-			gotoxy(x, y, L"", false);
+			gotoxy(x + 10, y, L"", false);
 			wcin >> str;
 		}
-		Print_TK(FileManage().StatisticClass(str));
-
-
+		system("CLS");
+		Print_TK(FileManage().StatisticClass(str), str);
 
 	}
+	Loop();
 }
 
 Student NhapThongTinSV(Student st) {
@@ -590,7 +599,7 @@ void InputSelect()
 	}
 }
 
-void Print_TK(vector<int> dsSV)
+void Print_TK(vector<int> dsSV, wstring idclass)
 {
 	int tong = 0;
 	for each (int var in dsSV)
@@ -598,12 +607,10 @@ void Print_TK(vector<int> dsSV)
 		tong += var;
 	}
 	if (dsSV.size() > 0) {
-		system("CLS");
 		system("color 30");
-		oxoy* selected = new oxoy[2];
 		ox = 60;
 		oy = 2;
-		gotoxy(ox, oy, L"Thống kê sinh viên", false);
+		gotoxy(ox, oy, L"Thống kê sinh viên cho mã lớp " + idclass, false);
 		oy = 6;
 		ox = 30;
 		//gotoxy(ox, oy, L"STT\t Mã sinh viên\t Mã lớp\t\t Tên sinh viên\t\t Ngày sinh\t Điểm trung bình", false);
@@ -619,70 +626,77 @@ void Print_TK(vector<int> dsSV)
 		gotoxy(85, oy, to_wstring(dsSV[2]), true);
 		gotoxy(115, oy, to_wstring(dsSV[3]), false);
 
-		gotoxy(45, oy, to_wstring(dsSV[0] / tong*100) + L"%", true);
-		gotoxy(65, oy, to_wstring(dsSV[1] / tong*100) + L"%", true);
-		gotoxy(85, oy, to_wstring(dsSV[2] / tong*100) + L"%", true);
-		gotoxy(115, oy, to_wstring(dsSV[3] / tong*100) + L"%", false);
+		gotoxy(45, oy, to_wstring(dsSV[0] / tong * 100) + L"%", true);
+		gotoxy(65, oy, to_wstring(dsSV[1] / tong * 100) + L"%", true);
+		gotoxy(85, oy, to_wstring(dsSV[2] / tong * 100) + L"%", true);
+		gotoxy(115, oy, to_wstring(dsSV[3] / tong * 100) + L"%", false);
 		oy += 2;
 		gotoxy(0, oy, L"---------------------------------------------------------------------------------------------------------------------------------------------------", false);
-		selected[0].ox = ox;
-		selected[0].oy = oy;
-		gotoxy(ox, oy, L"Quay lại", true);
-		selected[1].ox = 100;
-		selected[1].oy = oy;
-		gotoxy(100, oy, L"Thoát", true);
-		int vtriHTai = 1;
-		while (true)
-		{
-			if (viTriMenu == 5) {
-				KEY_EVENT_RECORD key;
-				getconchar(key);
-				switch (key.wVirtualKeyCode)
-				{
-				case 37://trai quay lại
-				{
-					MenuThoat();
-					break;
-				}
-				case 38://lên
-				{
-					if (vtriHTai = 0)
-						vtriHTai = 1;
-					else vtriHTai = 0;
-					gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
-					break;
-				}
 
-				case 40://xuống
-				{
-
-					if (vtriHTai = 0)
-						vtriHTai = 1;
-					else vtriHTai = 0;
-					gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
-					break;
-				}
-				case 13: //enter lựa chọn
-				{
-					viTriMenu = 0;
-				}
-				default://nhập giá trị
-				{
-					viTriMenu = 0;
-					break;
-				}
-				}
-			}
-			else
-			{
-				break;
-			}
-		}
 	}
 	else {
 		HuongDanMenu_KetQuaLuu(L"Danh sách sinh viên trống");
 		MenuThoat();
 	}
+}
+
+void Loop()
+{
+	oxoy* selected = new oxoy[2];
+	selected[0].ox = ox;
+	selected[0].oy = oy;
+	gotoxy(ox, oy, L"Quay lại", true);
+	selected[1].ox = 100;
+	selected[1].oy = oy;
+	gotoxy(100, oy, L"Thoát", true);
+	int vtriHTai = 1;
+	while (true)
+	{
+		if (viTriMenu == 5) {
+			KEY_EVENT_RECORD key;
+			getconchar(key);
+			switch (key.wVirtualKeyCode)
+			{
+			case 37://trai quay lại
+			{
+				MenuThoat();
+				break;
+			}
+			case 38://lên
+			{
+				if (vtriHTai = 0)
+					vtriHTai = 1;
+				else vtriHTai = 0;
+				gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
+				break;
+			}
+
+			case 40://xuống
+			{
+
+				if (vtriHTai = 0)
+					vtriHTai = 1;
+				else vtriHTai = 0;
+				gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
+				break;
+			}
+			case 13: //enter lựa chọn
+			{
+				viTriMenu = 0;
+			}
+			default://nhập giá trị
+			{
+				viTriMenu = 0;
+				break;
+			}
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
+
 }
 
 void HuongDanMenu_Base(wstring str, vector<wstring> dsHD)

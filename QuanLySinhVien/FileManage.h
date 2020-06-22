@@ -10,6 +10,7 @@
 #include <fstream>
 #include <locale>
 #include <vector>
+#include <algorithm>
 using namespace std;
 class FileManage
 {
@@ -18,11 +19,12 @@ public:
 	~FileManage();
 
 	vector<Student> OpenFile();
-	bool SaveData(wstring data );
+	bool SaveData(wstring data);
 	vector< wstring> SlitLine(wstring line, wstring charS);
 	vector<Student> FindSV(wstring line, vector<int> listFind);
-	void SaveDataList(vector<Student> dssv );
-	vector<int>Statistic();
+	void SaveDataList(vector<Student> dssv);
+	vector<vector<int>>Statistic(vector<wstring> dsIdLop);
+	vector<wstring>GetIdClass();
 	vector<int>StatisticClass(wstring id);
 private:
 	char* path = "E:/NguyenQuangLinh/TTKTLT/QuanLySinhVien/Data/DataStudent.txt";
