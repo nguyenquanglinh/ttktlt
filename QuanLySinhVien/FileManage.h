@@ -18,9 +18,10 @@ public:
 	~FileManage();
 
 	vector<Student> OpenFile();
-	bool SaveData(wstring data);
+	bool SaveData(wstring data );
 	vector< wstring> SlitLine(wstring line, wstring charS);
 	vector<Student> FindSV(wstring line, vector<int> listFind);
+	void SaveDataList(vector<Student> dssv );
 private:
 	char* path = "E:/NguyenQuangLinh/TTKTLT/QuanLySinhVien/Data/DataStudent.txt";
 };

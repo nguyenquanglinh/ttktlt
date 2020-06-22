@@ -376,7 +376,7 @@ void Menu_Sort()
 		int thuatToan = MenuLayThuatToan();
 		int x = MenuLayLoaiSX();
 		FileManage fm;
-		vector<Student>dssv = ThuatToan(thuatToan, x).Run(dssv);
+		vector<Student>dssv = ThuatToan(thuatToan, x).Run(fm.OpenFile());
 		int firtRun = 1;
 		while (viTriMenu == 3)
 		{
@@ -389,11 +389,7 @@ void Menu_Sort()
 				{
 					if (firtRun == 1)
 					{
-						for each (Student var in dssv)
-						{
-							fm.SaveData(var.toString());
-							firtRun++;
-						}
+						fm.SaveDataList(dssv);
 						HuongDanMenu_KetQuaLuu();
 					}
 					else
@@ -408,8 +404,6 @@ void Menu_Sort()
 			}
 			MenuThoat();
 		}
-
-
 	}
 	else
 	{
@@ -606,11 +600,10 @@ void HuongDanMenu_SapXep(wstring str)
 
 int HuongDanMenu_Luu()
 {
-	system("CLS");
-	oy = 5;
+
 	system("color 31");
 	oxoy selected[2];
-
+	ox += 20;
 	gotoxy(ox, oy, L"Bạn có muốn lưu hay không ?", false);
 	selected[0].ox = ox;
 	selected[0].oy = oy;
@@ -621,7 +614,7 @@ int HuongDanMenu_Luu()
 	selected[1].ox = ox;
 	selected[1].oy = oy;
 	gotoxy(ox, oy, L"2.không lưu.", false);
-	ox -= 20;
+	ox -= 40;
 	int vtriHTai = 0;
 	while (true)
 	{
@@ -1027,10 +1020,12 @@ vector<int> LayLoaiTimKiem()
 				return vector<int>{1, 2, 3, 4, 5};
 			}
 			else {
-				HD.push_back(luaChon.at(vtriHTai));
-				luaChon[vtriHTai] = L"";
-				ret.push_back(vtriHTai);
-				change = true;
+				if (luaChon.at(vtriHTai) != L"") {
+					HD.push_back(luaChon.at(vtriHTai));
+					luaChon[vtriHTai] = L"";
+					ret.push_back(vtriHTai);
+					change = true;
+				}
 				break;
 			}
 		}
@@ -1050,10 +1045,12 @@ vector<int> LayLoaiTimKiem()
 				return vector<int>{1, 2, 3, 4, 5};
 			}
 			else {
-				HD.push_back(luaChon.at(vtriHTai));
-				luaChon[vtriHTai] = L"";
-				ret.push_back(vtriHTai);
-				change = true;
+				if (luaChon.at(vtriHTai) != L"") {
+					HD.push_back(luaChon.at(vtriHTai));
+					luaChon[vtriHTai] = L"";
+					ret.push_back(vtriHTai);
+					change = true;
+				}
 				break;
 			}
 		}
@@ -1097,10 +1094,13 @@ vector<int> LayLoaiTimKiem()
 					return vector<int>{1, 2, 3, 4, 5};
 				}
 				else {
-					HD.push_back(luaChon.at(x));
-					luaChon[x] = L"";
-					ret.push_back(x);
-					change = true;
+					if (luaChon.at(x) != L"") {
+						HD.push_back(luaChon.at(x));
+						luaChon[x] = L"";
+						ret.push_back(x);
+						change = true;
+					}
+					
 					break;
 				}
 			}
@@ -1121,7 +1121,16 @@ void MenuNhapChuoiTimKiem(vector<int> luaChon)
 	gotoxy(ox, oy, L"Chuỗi: ", false);
 	while (viTriMenu == 4)
 	{
-		if (str.length() > 0) break;
+		if (str.length() > 0) {
+			vector<Student> dssv = FileManage().FindSV(str, luaChon);
+			if (dssv.size() > 0)
+				Print_List(dssv);
+			else {
+				HuongDanMenu_KetQuaLuu(L"Không tìm thấy kết quả nào cho: " + str
+					+ L" từ danh sách sinh viên đã lâu");
+			}
+			viTriMenu = 0;
+		};
 		KEY_EVENT_RECORD key;
 		getconchar(key);
 		switch (key.wVirtualKeyCode)
@@ -1152,14 +1161,7 @@ void MenuNhapChuoiTimKiem(vector<int> luaChon)
 		}
 		}
 	}
-	vector<Student> dssv = FileManage().FindSV(str, luaChon);
-	if (dssv.size() > 0)
-		Print_List(dssv);
-	else {
-		HuongDanMenu_KetQuaLuu(L"Không tìm thấy kết quả nào cho: " + str
-			+ L" từ danh sách sinh viên đã lâu");
-	}
-	viTriMenu = 0;
+	
 }
 
 void MenuThoat()

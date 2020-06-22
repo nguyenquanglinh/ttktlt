@@ -67,17 +67,22 @@ vector<Student> FileManage::OpenFile()
 
 bool FileManage::SaveData(wstring data)
 {
+	//xoas file cux
+
+	wofstream file(this->path, ios_base::binary | ios_base::app); //binary is important to set!  
 	try
 	{
-		wofstream file(this->path, ios_base::binary | ios_base::app); //binary is important to set!  
+
 		wchar_t buffer[128];
 		file.rdbuf()->pubsetbuf(buffer, 128);
 		file.put(0xFEFF); //this is the BOM flag, UTF16 needs this, but mirosoft's UNICODE doesn't, so you can skip this line, if any.  
 		file << data + L"\n";
+		file.close();
 		return true;
 	}
 	catch (const std::exception&)
 	{
+		file.close();
 		return false;
 	}
 
@@ -97,7 +102,7 @@ vector<wstring> FileManage::SlitLine(wstring line, wstring charS)
 	dsChuoi.push_back(wstring(line.begin(), line.end()));
 	return dsChuoi;
 }
- 
+
 vector<Student> FileManage::FindSV(wstring line, vector<int>listFind)
 {
 	vector<Student> dssv = OpenFile();
@@ -106,36 +111,36 @@ vector<Student> FileManage::FindSV(wstring line, vector<int>listFind)
 	{
 		for each (int id in listFind)
 		{
-			switch (id)
+			switch (id+1)
 			{
 			case 1:
 			{
 				if (dssv.at(i).GetId().find(line) != wstring::npos)
-					dssv.push_back(dssv.at(i));
+					ret.push_back(dssv.at(i));
 				break;
 			}
 			case 2:
 			{
 				if (dssv.at(i).GetIdClass().find(line) != wstring::npos)
-					dssv.push_back(dssv.at(i));
+					ret.push_back(dssv.at(i));
 				break;
 			}
 			case 3:
 			{
 				if (dssv.at(i).GetName().find(line) != wstring::npos)
-					dssv.push_back(dssv.at(i));
+					ret.push_back(dssv.at(i));
 				break;
 			}
 			case 4:
 			{
 				if (dssv.at(i).GetDateTime().find(line) != wstring::npos)
-					dssv.push_back(dssv.at(i));
+					ret.push_back(dssv.at(i));
 				break;
 			}
 			case 5:
 			{
 				if (dssv.at(i).GetNumBer().find(line) != wstring::npos)
-					dssv.push_back(dssv.at(i));
+					ret.push_back(dssv.at(i));
 				break;
 			}
 			default:
@@ -149,3 +154,12 @@ vector<Student> FileManage::FindSV(wstring line, vector<int>listFind)
 	return ret;
 }
 
+void FileManage::SaveDataList(vector<Student> dssv)
+{
+
+	wofstream file(this->path);
+	for each (Student var in dssv)
+	{
+		SaveData(var.toString());
+	}
+}
