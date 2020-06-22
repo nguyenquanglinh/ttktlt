@@ -19,6 +19,7 @@ wstring ReadOneLine(FILE* File, wstring Line) {
 
 	return Line;
 }
+
 vector<Student> FileManage::OpenFile()
 {
 	/*return	PrintFile();*/
@@ -95,5 +96,56 @@ vector<wstring> FileManage::SlitLine(wstring line, wstring charS)
 	}
 	dsChuoi.push_back(wstring(line.begin(), line.end()));
 	return dsChuoi;
+}
+ 
+vector<Student> FileManage::FindSV(wstring line, vector<int>listFind)
+{
+	vector<Student> dssv = OpenFile();
+	vector<Student>ret;
+	for (size_t i = 0; i < dssv.size(); i++)
+	{
+		for each (int id in listFind)
+		{
+			switch (id)
+			{
+			case 1:
+			{
+				if (dssv.at(i).GetId().find(line) != wstring::npos)
+					dssv.push_back(dssv.at(i));
+				break;
+			}
+			case 2:
+			{
+				if (dssv.at(i).GetIdClass().find(line) != wstring::npos)
+					dssv.push_back(dssv.at(i));
+				break;
+			}
+			case 3:
+			{
+				if (dssv.at(i).GetName().find(line) != wstring::npos)
+					dssv.push_back(dssv.at(i));
+				break;
+			}
+			case 4:
+			{
+				if (dssv.at(i).GetDateTime().find(line) != wstring::npos)
+					dssv.push_back(dssv.at(i));
+				break;
+			}
+			case 5:
+			{
+				if (dssv.at(i).GetNumBer().find(line) != wstring::npos)
+					dssv.push_back(dssv.at(i));
+				break;
+			}
+			default:
+				break;
+			}
+
+		}
+
+
+	}
+	return ret;
 }
 

@@ -20,6 +20,7 @@ public:
 	vector<Student> OpenFile();
 	bool SaveData(wstring data);
 	vector< wstring> SlitLine(wstring line, wstring charS);
+	vector<Student> FindSV(wstring line, vector<int> listFind);
 private:
 	char* path = "E:/NguyenQuangLinh/TTKTLT/QuanLySinhVien/Data/DataStudent.txt";
 };
