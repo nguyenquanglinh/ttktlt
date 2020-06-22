@@ -72,16 +72,17 @@ void HuongDanMenu_Base(wstring str = L"Menu Quản Lý Sinh Viên", vector<wstri
 void HuongDanMenu_KetQuaLuu(wstring st = L"Đã lưu thông tin sinh viên thành công");
 void HuongDanMenu_SangTrai(wstring st = L"Bấm nút mũi tên sang trái để quay về");
 int HuongDanMenu_Luu();
-int HuongDanMenu_Thoat();
+int HuongDanMenu_Thoat(wstring st = L"Bạn có muốn thoát không ?");
 int HuongDanMenu_NhapLai();
 int MenuLayThuatToan();
-int MenuLayLoaiSX();
+int MenuLayLoaiSX(vector<wstring>a);
 vector<int>LayLoaiTimKiem();
-void MenuNhapChuoiTimKiem(vector<int>luaChon);
+void MenuNhapChuoiTimKiem(vector<int>luaChon, wstring st = L"Nhập mã lớp thống kê");
 void Print_List(vector<Student>dsSV);
 Student NhapThongTinSV(Student st);
 Student AddStudent();
 void InputSelect();
+void Print_TK(vector<int>dssv);
 
 int main() {
 	ox = 0;
@@ -374,7 +375,11 @@ void Menu_Sort()
 	if (dssv.size() > 0)
 	{
 		int thuatToan = MenuLayThuatToan();
-		int x = MenuLayLoaiSX();
+		int x = MenuLayLoaiSX(vector<wstring>{
+			L"1.Mã sinh viên.", L"2.Mã lớp.",
+				L"3.Tên sinh viên.", L"4.Điểm trung bình", L"5.Thoát."
+		});
+
 		FileManage fm;
 		vector<Student>dssv = ThuatToan(thuatToan, x).Run(fm.OpenFile());
 		int firtRun = 1;
@@ -416,13 +421,33 @@ void Menu_Find()
 {
 	vector<int>luaChon = LayLoaiTimKiem();
 	if (luaChon.size() > 0) {
-		MenuNhapChuoiTimKiem(luaChon);
+		MenuNhapChuoiTimKiem(luaChon, L"1.Nhập chuỗi cần tìm kiếm:");
 	}
 }
 
 void Menu_Statistic()
 {
+	HuongDanMenu_Base(L"Menu Thống Kê Sinh Viên", vector<wstring>{L"Bấm mũi tên sang trái để quay lại"});
+	if (HuongDanMenu_Thoat(L"Thống Kê tất cả sinh viên của tất cả các lớp?") == 0) {
+		Print_TK(FileManage().Statistic());
+	}
+	else
+	{
+		HuongDanMenu_Base(L"Thống kê theo mã lớp", vector<wstring>{L"Nhập mã lớp"});
+		int x = ox;
+		int y = oy;
+		wstring str = L"";
+		gotoxy(x, y, L"Mã lớp", false);
+		while (str == L"")
+		{
+			gotoxy(x, y, L"", false);
+			wcin >> str;
+		}
+		Print_TK(FileManage().StatisticClass(str));
 
+
+
+	}
 }
 
 Student NhapThongTinSV(Student st) {
@@ -565,6 +590,101 @@ void InputSelect()
 	}
 }
 
+void Print_TK(vector<int> dsSV)
+{
+	int tong = 0;
+	for each (int var in dsSV)
+	{
+		tong += var;
+	}
+	if (dsSV.size() > 0) {
+		system("CLS");
+		system("color 30");
+		oxoy* selected = new oxoy[2];
+		ox = 60;
+		oy = 2;
+		gotoxy(ox, oy, L"Thống kê sinh viên", false);
+		oy = 6;
+		ox = 30;
+		//gotoxy(ox, oy, L"STT\t Mã sinh viên\t Mã lớp\t\t Tên sinh viên\t\t Ngày sinh\t Điểm trung bình", false);
+		gotoxy(25, oy, L"Tổng số sinh viên", true);
+		gotoxy(45, oy, L"Sinh viên giỏi", true);
+		gotoxy(65, oy, L"Sinh viên khá ", true);
+		gotoxy(85, oy, L"Sinh viên trung bình", true);
+		gotoxy(115, oy, L"Sinh viên yếu", false);
+
+		gotoxy(25, oy, to_wstring(tong), true);
+		gotoxy(45, oy, to_wstring(dsSV[0]), true);
+		gotoxy(65, oy, to_wstring(dsSV[1]), true);
+		gotoxy(85, oy, to_wstring(dsSV[2]), true);
+		gotoxy(115, oy, to_wstring(dsSV[3]), false);
+
+		gotoxy(45, oy, to_wstring(dsSV[0] / tong*100) + L"%", true);
+		gotoxy(65, oy, to_wstring(dsSV[1] / tong*100) + L"%", true);
+		gotoxy(85, oy, to_wstring(dsSV[2] / tong*100) + L"%", true);
+		gotoxy(115, oy, to_wstring(dsSV[3] / tong*100) + L"%", false);
+		oy += 2;
+		gotoxy(0, oy, L"---------------------------------------------------------------------------------------------------------------------------------------------------", false);
+		selected[0].ox = ox;
+		selected[0].oy = oy;
+		gotoxy(ox, oy, L"Quay lại", true);
+		selected[1].ox = 100;
+		selected[1].oy = oy;
+		gotoxy(100, oy, L"Thoát", true);
+		int vtriHTai = 1;
+		while (true)
+		{
+			if (viTriMenu == 5) {
+				KEY_EVENT_RECORD key;
+				getconchar(key);
+				switch (key.wVirtualKeyCode)
+				{
+				case 37://trai quay lại
+				{
+					MenuThoat();
+					break;
+				}
+				case 38://lên
+				{
+					if (vtriHTai = 0)
+						vtriHTai = 1;
+					else vtriHTai = 0;
+					gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
+					break;
+				}
+
+				case 40://xuống
+				{
+
+					if (vtriHTai = 0)
+						vtriHTai = 1;
+					else vtriHTai = 0;
+					gotoxy(selected[vtriHTai].ox, selected[vtriHTai].oy, L"", true);
+					break;
+				}
+				case 13: //enter lựa chọn
+				{
+					viTriMenu = 0;
+				}
+				default://nhập giá trị
+				{
+					viTriMenu = 0;
+					break;
+				}
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+	else {
+		HuongDanMenu_KetQuaLuu(L"Danh sách sinh viên trống");
+		MenuThoat();
+	}
+}
+
 void HuongDanMenu_Base(wstring str, vector<wstring> dsHD)
 {
 	system("CLS");
@@ -657,11 +777,11 @@ int HuongDanMenu_Luu()
 	}
 }
 
-int HuongDanMenu_Thoat()
+int HuongDanMenu_Thoat(wstring st)
 {
 	oxoy selected[2];
 	ox += 20;
-	gotoxy(ox, oy, L"Bạn có muốn thoát không ?", false);
+	gotoxy(ox, oy, st, false);
 	selected[0].ox = ox;
 	selected[0].oy = oy;
 	gotoxy(ox, oy, L"1.Có", false);
@@ -863,18 +983,11 @@ int MenuLayThuatToan()
 	return thuatToan;
 }
 
-int MenuLayLoaiSX()
+int MenuLayLoaiSX(vector<wstring>a)
 {
 	int thuatToan = 0;
 	HuongDanMenu_Base(L"Menu Sắp Xếp", vector<wstring>{L"Xin mời bạn nhập từ 1->5"});
-	wstring a[5];
-	a[0] = L"1.Mã sinh viên.";
-	a[1] = L"2.Mã lớp.";
-	a[2] = L"3.Tên sinh viên.";
-	a[3] = L"4.Điểm trung bình";
-	a[4] = L"5.Thoát.";
-
-	oxoy selected[6];
+	oxoy* selected = new oxoy[a.size()];
 	for (int i = 0; i < 5; i++) {
 		selected[i].ox = ox;
 		selected[i].oy = oy;
@@ -1100,7 +1213,7 @@ vector<int> LayLoaiTimKiem()
 						ret.push_back(x);
 						change = true;
 					}
-					
+
 					break;
 				}
 			}
@@ -1109,13 +1222,13 @@ vector<int> LayLoaiTimKiem()
 	}
 }
 
-void MenuNhapChuoiTimKiem(vector<int> luaChon)
+void MenuNhapChuoiTimKiem(vector<int> luaChon, wstring st)
 {
 	HuongDanMenu_Base(L"Hướng dẫn menu Tìm kiếm sinh viên", vector<wstring>{L"Nhập chuỗi cần tìm kiếm"});
 	wstring str = L"";
 	wstring a[1];
 	oxoy selected[1];
-	gotoxy(ox, oy, L"1.Nhập chuỗi cần tìm kiếm:", false);
+	gotoxy(ox, oy, st, false);
 	selected[0].ox = ox;
 	selected[0].oy = oy;
 	gotoxy(ox, oy, L"Chuỗi: ", false);
@@ -1161,7 +1274,7 @@ void MenuNhapChuoiTimKiem(vector<int> luaChon)
 		}
 		}
 	}
-	
+
 }
 
 void MenuThoat()

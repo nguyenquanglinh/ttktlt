@@ -22,6 +22,8 @@ public:
 	vector< wstring> SlitLine(wstring line, wstring charS);
 	vector<Student> FindSV(wstring line, vector<int> listFind);
 	void SaveDataList(vector<Student> dssv );
+	vector<int>Statistic();
+	vector<int>StatisticClass(wstring id);
 private:
 	char* path = "E:/NguyenQuangLinh/TTKTLT/QuanLySinhVien/Data/DataStudent.txt";
 };

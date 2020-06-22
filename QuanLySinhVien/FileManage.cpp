@@ -111,7 +111,7 @@ vector<Student> FileManage::FindSV(wstring line, vector<int>listFind)
 	{
 		for each (int id in listFind)
 		{
-			switch (id+1)
+			switch (id + 1)
 			{
 			case 1:
 			{
@@ -162,4 +162,46 @@ void FileManage::SaveDataList(vector<Student> dssv)
 	{
 		SaveData(var.toString());
 	}
+}
+
+vector<int> FileManage::Statistic()
+{
+	vector<Student>dssv = OpenFile();
+	int gioi = 0, kha = 0, tb = 0, yeu = 0;
+	for each (Student var in dssv)
+	{
+		float dtb = stoi(var.GetNumBer());
+		if (dtb < 1.1)
+			yeu++;
+		else if (dtb < 2.1)
+			tb++;
+		else if (dtb < 3.1)
+			kha++;
+		else
+		{
+			gioi++;
+		}
+	}
+	return vector<int>{gioi,kha,tb,yeu};
+}
+
+vector<int> FileManage::StatisticClass(wstring id)
+{
+	vector<Student>dssv = OpenFile();
+	int gioi = 0, kha = 0, tb = 0, yeu = 0;
+	for each (Student var in dssv)
+	{
+		float dtb = stoi(var.GetNumBer());
+		if (dtb < 1.1)
+			yeu++;
+		else if (dtb < 2.1)
+			tb++;
+		else if (dtb < 3.1)
+			kha++;
+		else
+		{
+			gioi++;
+		}
+	}
+	return vector<int>{gioi, kha, tb, yeu};
 }
