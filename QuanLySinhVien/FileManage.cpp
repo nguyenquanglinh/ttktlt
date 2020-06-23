@@ -26,7 +26,7 @@ vector<Student> FileManage::OpenFile()
 	vector<Student>dsSV = vector<Student>();
 	FILE* file;
 	wstring line;
-	wstring FileName = L"E:/NguyenQuangLinh/TTKTLT/QuanLySinhVien/Data/DataStudent.txt";
+	wstring FileName = L"C:/Users/huyen/Source/Repos/ttktlt/QuanLySinhVien/Data/DataStudent.txt";
 	_wfopen_s(&file, FileName.c_str(), L"r,ccs=UTF-16LE");
 	Student sv;
 
@@ -41,7 +41,7 @@ vector<Student> FileManage::OpenFile()
 				sv = Student();
 			}
 			else if (line.find(L"id: ") != string::npos) {
-			
+
 				sv.SetId(SlitLine(line, L"id: ").at(0));
 			}
 			else if (line.find(L"idClass: ") != string::npos) {
@@ -55,7 +55,7 @@ vector<Student> FileManage::OpenFile()
 				{
 					std::transform(it.begin(), it.begin() + 1, it.begin(), ::toupper);
 					std::transform(it.begin() + 1, it.end(), it.begin() + 1, ::tolower);
-					ret +=L" "+ it;
+					ret += L" " + it;
 				}
 				sv.SetName(ret);
 			}
@@ -176,7 +176,8 @@ vector<vector<int>> FileManage::Statistic(vector<wstring> dsIdLop)
 	vector<vector<int>>ret;
 	for each (wstring var in dsIdLop)
 	{
-		ret.push_back(StatisticClass(var));
+		if (var != L"\n")
+			ret.push_back(StatisticClass(var));
 	}
 	return ret;
 }
@@ -200,17 +201,20 @@ vector<int> FileManage::StatisticClass(wstring id)
 	int gioi = 0, kha = 0, tb = 0, yeu = 0;
 	for each (Student var in dssv)
 	{
-		float dtb = stoi(var.GetNumBer());
-		if (dtb < 1.1)
-			yeu++;
-		else if (dtb < 2.1)
-			tb++;
-		else if (dtb < 3.1)
-			kha++;
-		else
-		{
-			gioi++;
+		if (var.GetIdClass() == id) {
+			float dtb = stoi(var.GetNumBer());
+			if (dtb < 5)
+				yeu++;
+			else if (dtb < 7)
+				tb++;
+			else if (dtb < 8)
+				kha++;
+			else
+			{
+				gioi++;
+			}
 		}
+
 	}
 	return vector<int>{gioi, kha, tb, yeu};
 }

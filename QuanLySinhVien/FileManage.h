@@ -27,5 +27,5 @@ public:
 	vector<wstring>GetIdClass();
 	vector<int>StatisticClass(wstring id);
 private:
-	char* path = "E:/NguyenQuangLinh/TTKTLT/QuanLySinhVien/Data/DataStudent.txt";
+	char* path = "C:/Users/huyen/Source/Repos/ttktlt/QuanLySinhVien/Data/DataStudent.txt";
 };

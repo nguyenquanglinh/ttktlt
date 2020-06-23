@@ -436,7 +436,7 @@ void Menu_Statistic()
 		system("CLS");
 		for (size_t i = 0; i < dstk.size(); i++)
 		{
-			Print_TK(dstk[0], dsId[0]);
+			Print_TK(dstk[i], dsId[i]);
 		}
 	}
 	else
@@ -609,9 +609,9 @@ void Print_TK(vector<int> dsSV, wstring idclass)
 	if (dsSV.size() > 0) {
 		system("color 30");
 		ox = 60;
-		oy = 2;
+		oy += 2;
 		gotoxy(ox, oy, L"Thống kê sinh viên cho mã lớp " + idclass, false);
-		oy = 6;
+		oy += 6;
 		ox = 30;
 		//gotoxy(ox, oy, L"STT\t Mã sinh viên\t Mã lớp\t\t Tên sinh viên\t\t Ngày sinh\t Điểm trung bình", false);
 		gotoxy(25, oy, L"Tổng số sinh viên", true);
